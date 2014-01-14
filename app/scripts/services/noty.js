@@ -66,9 +66,8 @@ angular.module('w3uiFrontendApp')
                 $.noty.close(id);
 
                 for( var index=0; index < queue.length; index++ ){}
-                if( queue[index].options.id == id ){
+                if( queue[index].options.id === id ){
                     queue.splice(index, 1);
-                    exit;
                 }
             },
 

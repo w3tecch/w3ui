@@ -7,7 +7,10 @@
     "eqeqeq": true,
     "eqnull": true,
     "browser": true,
+    "undef": true,
+    "unused": true,
     "globals": {
-        "angular": true
+        "angular": true,
+        "jquery": true
     }
 }

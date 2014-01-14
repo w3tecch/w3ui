@@ -4,15 +4,17 @@ angular.module('w3uiFrontendApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ui.router'
 ])
 
 /**
  * Config Application
   */
-.config(function ($routeProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
 
+    $urlRouterProvider.otherwise("/login");
 
+    /*
     $routeProvider
         .when('/', {
             redirectTo: '/login'
@@ -28,6 +30,8 @@ angular.module('w3uiFrontendApp', [
         .otherwise({
             redirectTo: '/'
         });
+    */
+
 
 
 })
@@ -35,12 +39,14 @@ angular.module('w3uiFrontendApp', [
 /**
  * Run Application
   */
-.run(['$rootScope', '$http', '$location', 'Authentication',
-    function ($rootScope, $http, $location, Authentication) {
+.run(['$rootScope', '$location', 'Authentication',
+    function ($rootScope,  $location, Authentication) {
 
-    $rootScope.$on('$stateChangeStart', function(event, next, current) {
-        console.log('$stateChangeStart',event, next, current);
-    });
+        //$location.path('/login');
+
+        $rootScope.$on('$stateChangeStart', function(event, next, current) {
+            //console.log('$stateChangeStart',event, next, current);
+        });
 
 
 

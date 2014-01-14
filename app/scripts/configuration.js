@@ -15,7 +15,6 @@
         API_END_POINT_DEV: '80',
         API_SERVER_PATH_DEV: '/www/baselanwaelte.ch/api',
 
-
         API_KEY: '1234567890',
         API_SECRET: 'davidvilla7',
         CONTENT_TYPE: 'application/json',

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('w3uiFrontendApp')
-    .factory('Authentication', function ($http, $cookieStore) {
+    .factory('Authentication', function ($http, $cookieStore, Noty) {
         // Service logic
         var user = {};
         var token = '';
@@ -17,7 +17,7 @@ angular.module('w3uiFrontendApp')
                 }
             },
             login: function (formUser, success, error) {
-                $cookieStore.put("APP_ENVIRONMENT", configuration.set("APP_ENVIRONMENT", formUser.server));
+                $cookieStore.put('APP_ENVIRONMENT', configuration.set('APP_ENVIRONMENT', formUser.server));
 
                 var url = configuration.generateBackendURLHelper();
 
@@ -29,14 +29,14 @@ angular.module('w3uiFrontendApp')
                     url: url + 'auth/login',
                     headers: {
                         'API-Secret': configuration.get('API_SECRET'),
-                        'Authorization': 'Basic ' + Base64.encode(formUser.username + ":" + formUser.password)
+                        'Authorization': 'Basic ' + Base64.encode(formUser.username + ':' + formUser.password)
                     }
                 }).success(function (data) {
                         var newUserObj = {};
-                        newUserObj["id"] = data.user["id"];
-                        newUserObj["fname"] = data.user["fname"];
-                        newUserObj["lname"] = data.user["lname"];
-                        newUserObj["email"] = data.user["email"];
+                        newUserObj.id = data.user.id;
+                        newUserObj.fname = data.user.fname;
+                        newUserObj.lname = data.user.lname;
+                        newUserObj.email = data.user.email;
 
                         user = newUserObj;
 

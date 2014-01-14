@@ -8,9 +8,9 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-
-        $stateProvider.state('main', {
-            url: '/main',
+        /*
+        $stateProvider.state('navigation', {
+            url: '/*',
             views: {
                 'main': {
                     controller: 'MainCtrl',
@@ -22,15 +22,15 @@ angular.module('w3uiFrontendApp')
                 }
             }
         });
+        */
     })
 
 /**
  * And of course we define a controller for our route.
  */
-    .controller('MainCtrl', function ($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('NavigationCtrl', function ($scope) {
+
+
+
     });
+

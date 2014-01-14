@@ -10,7 +10,7 @@ angular.module('w3uiFrontendApp')
         var url = '';
         var token = '';
 
-        
+
 
 
         // Public API here

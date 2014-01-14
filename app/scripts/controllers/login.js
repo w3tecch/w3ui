@@ -5,32 +5,28 @@ angular.module('w3uiFrontendApp')
 /**
  * Each section or module of the site can also have its own routes. AngularJS
  * will handle ensuring they are all available at run-time, but splitting it
- * this way makes each module more "self-contained".
+ * this way makes each module more 'self-contained'.
  */
-    .config(function config($routeProvider) {
+    .config(function config($stateProvider) {
+        //access: access.anon,
 
-        /*var access = routingConfig.accessLevels;
+        $stateProvider.state('login', {
+            url: '/login',
+            views: {
+                'main': {
+                    controller: 'LoginCtrl',
+                    templateUrl: 'views/login.html'
+                }
+            }
+        });
 
-         $stateProvider.state('login', {
-         access: access.anon,
-         url: '/login',
-         views: {
-         "main": {
-         controller: 'LoginCtrl',
-         templateUrl: 'login/login.tpl.html'
-         }
-         },
-         data: {
-         pageTitle: 'Login'
-         }
-         });*/
     })
 
 /**
  * And of course we define a controller for our route.
  */
     .controller('LoginCtrl', function ($scope, $location, Authentication, Noty) {
-        $scope.server = configuration.get("APP_ENVIRONMENT");
+        $scope.server = configuration.get('APP_ENVIRONMENT');
 
         $scope.username = 'gery.hirschfeld@w3tec.ch';
         $scope.password = '1234';
@@ -44,7 +40,7 @@ angular.module('w3uiFrontendApp')
                     server: $scope.server
                 },
                 function (res) {
-                    Noty.show('Login erfolgreich','S');
+                    Noty.show('Login erfolgreich', 'S');
                     if (event.preventDefault) {
                         event.preventDefault();
                     } else {
@@ -53,13 +49,13 @@ angular.module('w3uiFrontendApp')
                     $location.path('/main');
                 },
                 function (err) {
-                    Noty.show('Login fehlgeschlagen','E');
+                    Noty.show('Login fehlgeschlagen', 'E');
 
                 }
             );
 
 
-        }
+        };
 
 
     });
