@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: noty', function () {
+describe('Service: Noty', function () {
 
   // load the service's module
   beforeEach(module('w3uiFrontendApp'));
 
   // instantiate service
-  var noty;
-  beforeEach(inject(function (_noty_) {
-    noty = _noty_;
+  var Noty;
+  beforeEach(inject(function (_Noty_) {
+    Noty = _Noty_;
   }));
 
   it('should do something', function () {
-    expect(!!noty).toBe(true);
+    expect(!!Noty).toBe(true);
   });
 
 });

@@ -1,12 +1,15 @@
 'use strict';
 
 angular.module('w3uiFrontendApp')
-    .factory('noty', function () {
-        // Service logic
 
+/**
+ * Noty Service
+ */
+    .factory('Noty', function () {
+        //Queue
         var queue = [];
 
-
+        //Defaults
         $.noty.defaults = {
             layout: 'bottomRight',
             theme: 'defaultTheme',
@@ -42,9 +45,43 @@ angular.module('w3uiFrontendApp')
 
         // Public API here
         return {
-            show: function ( message, type ) {
+            /**
+             * Clear all Noty's
+             */
+            clear: function (){
+                queue = [];
+                $.noty.closeAll();
+            },
 
-                switch (type){
+            /**
+             * Close Noty by ID or just the last one
+             *
+             * @param id
+             */
+            close: function( id ){
+                if(id === undefined){
+                    id = queue[queue.length-1].options.id;
+                }
+
+                $.noty.close(id);
+
+                for( var index=0; index < queue.length; index++ ){}
+                if( queue[index].options.id == id ){
+                    queue.splice(index, 1);
+                    exit;
+                }
+            },
+
+            /**
+             * Show Noty
+             *
+             * @param message
+             * @param type
+             * @returns {string}
+             */
+            show: function (message, type) {
+
+                switch (type) {
                     case 'a':
                     case 'A':
                         type = 'alert';
@@ -80,14 +117,16 @@ angular.module('w3uiFrontendApp')
                 }
 
                 var n = noty({
-                    text        : 'bottomRight',
-                    type        : type,
+                    text: message,
+                    type: type,
                     dismissQueue: true,
-                    layout      : 'bottomRight',
-                    theme       : 'defaultTheme'
+                    layout: 'bottomRight',
+                    theme: 'defaultTheme'
                 });
 
-                queue.push( n );
+                queue.push(n);
+
+                return n.options.id;
 
             }
         };

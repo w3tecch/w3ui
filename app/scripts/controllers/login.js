@@ -29,7 +29,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('LoginCtrl', function ($scope, $location, Authentication, noty) {
+    .controller('LoginCtrl', function ($scope, $location, Authentication, Noty) {
         $scope.server = configuration.get("APP_ENVIRONMENT");
 
         $scope.username = 'gery.hirschfeld@w3tec.ch';
@@ -44,7 +44,7 @@ angular.module('w3uiFrontendApp')
                     server: $scope.server
                 },
                 function (res) {
-                    noty.show('Login erfolgreich','S');
+                    Noty.show('Login erfolgreich','S');
                     if (event.preventDefault) {
                         event.preventDefault();
                     } else {
@@ -53,7 +53,7 @@ angular.module('w3uiFrontendApp')
                     $location.path('/main');
                 },
                 function (err) {
-                    noty.show('Login fehlgeschlagen','E');
+                    Noty.show('Login fehlgeschlagen','E');
 
                 }
             );
