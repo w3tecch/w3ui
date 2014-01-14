@@ -6,7 +6,7 @@
         // Environment
         APP_ENVIRONMENT: 'development',
 
-        //API Request & Restangular Config
+        //API Request Config
         API_HOST: 'http://localhost',
         API_END_POINT: '80',
         API_SERVER_PATH: '/www/baselanwaelte.ch/api',
@@ -14,6 +14,12 @@
         API_HOST_DEV: 'http://localhost',
         API_END_POINT_DEV: '80',
         API_SERVER_PATH_DEV: '/www/baselanwaelte.ch/api',
+
+
+        API_KEY: '1234567890',
+        API_SECRET: 'davidvilla7',
+        CONTENT_TYPE: 'application/json',
+        API_AUTH_TOKEN: null,
 
 
         //i18n Config
@@ -103,13 +109,13 @@
 
         switch (env) {
             case 'development':
-                url = configuration.API_HOST_DEV + ':' + configuration.API_END_POINT_DEV + configuration.API_SERVER_PATH_DEV + '/' + sLanguage + (functionName ? '/' + functionName : '');
+                url = configuration.API_HOST_DEV + ':' + configuration.API_END_POINT_DEV + configuration.API_SERVER_PATH_DEV + '/' + sLanguage + '/' + (functionName ? '/' + functionName : '');
                 break;
             case 'production':
-                url = configuration.API_HOST + ':' + configuration.API_END_POINT + configuration.API_SERVER_PATH + '/' + sLanguage + (functionName ? '/' + functionName : '');
+                url = configuration.API_HOST + ':' + configuration.API_END_POINT + configuration.API_SERVER_PATH + '/' + sLanguage + '/' + (functionName ? '/' + functionName : '');
                 break;
             default:
-                url = configuration.API_HOST + ':' + configuration.API_END_POINT + configuration.API_SERVER_PATH + '/' + sLanguage + (functionName ? '/' + functionName : '');
+                url = configuration.API_HOST + ':' + configuration.API_END_POINT + configuration.API_SERVER_PATH + '/' + sLanguage + '/' + (functionName ? '/' + functionName : '');
         }
         return url;
     };

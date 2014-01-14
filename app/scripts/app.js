@@ -1,22 +1,47 @@
 'use strict';
 
 angular.module('w3uiFrontendApp', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ngRoute'
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute'
 ])
-  .config(function ($routeProvider) {
+
+/**
+ * Config Application
+  */
+.config(function ($routeProvider) {
+
+
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+        .when('/', {
+            redirectTo: '/login'
+        })
+        .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginCtrl'
+        })
+        .when('/main', {
+            templateUrl: 'views/main.html',
+            controller: 'MainCtrl'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
+
+
+})
+
+/**
+ * Run Application
+  */
+.run(['$rootScope', '$http', '$location', 'Authentication',
+    function ($rootScope, $http, $location, Authentication) {
+
+    $rootScope.$on('$stateChangeStart', function(event, next, current) {
+        console.log('$stateChangeStart',event, next, current);
+    });
+
+
+
+}]);

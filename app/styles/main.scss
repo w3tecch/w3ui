@@ -1,36 +1,7 @@
-$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
-@font-face {
-  font-family: Ubuntu-L;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-L.ttf') format("truetype");
+h1, h2, h3, h4{
+  font-family: Ubuntu-R, Tahoma, Arial, serif;
 }
-
-@font-face {
-  font-family: Ubuntu-LI;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-LI.ttf') format("truetype");
-}
-
-@font-face {
-  font-family: Ubuntu-R;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-R.ttf') format("truetype");
-}
-
-@font-face {
-  font-family: Ubuntu-RI;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-RI.ttf') format("truetype");
-}
-
-@font-face {
-  font-family: Ubuntu-B;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-B.ttf') format("truetype");
-}
-
-@font-face {
-  font-family: Ubuntu-BI;
-  src: url('../resources/fonts/ubuntu-font-family-0.80/Ubuntu-BI.ttf') format("truetype");
-}
-
-@import 'sass-bootstrap/lib/bootstrap';
 
 .browsehappy {
     margin: 0.2em 0;
