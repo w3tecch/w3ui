@@ -7,20 +7,14 @@ angular.module('w3uiFrontendApp')
  */
     .factory('Ajax', function () {
         // Service logic
-        var url = '';
-        var token = '';
+        var url = configuration.generateBackendURLHelper();
+
 
 
 
 
         // Public API here
         return {
-            setUrl: function( newUrl ){
-                url = newUrl;
-            },
-            setToken: function( newToken ){
-                token = newToken;
-            },
             get: function () {
 
             },

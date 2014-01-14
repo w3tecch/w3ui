@@ -7,7 +7,7 @@ angular.module('w3uiFrontendApp')
  * will handle ensuring they are all available at run-time, but splitting it
  * this way makes each module more 'self-contained'.
  */
-    .config(function config($stateProvider) {
+    .config(function config() {
         /*
         $stateProvider.state('navigation', {
             url: '/*',

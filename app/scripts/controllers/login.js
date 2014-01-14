@@ -39,17 +39,18 @@ angular.module('w3uiFrontendApp')
                     password: $scope.password,
                     server: $scope.server
                 },
-                function (res) {
-                    Noty.show('Login erfolgreich', 'S');
+                function (user, message, status) {
                     if (event.preventDefault) {
                         event.preventDefault();
                     } else {
                         event.returnValue = false;
                     }
                     $location.path('/main');
+
+                    Noty.show( message, status );
                 },
                 function (err) {
-                    Noty.show('Login fehlgeschlagen', 'E');
+
 
                 }
             );
