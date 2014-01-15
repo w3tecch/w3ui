@@ -12,26 +12,7 @@ angular.module('w3uiFrontendApp', [
   */
 .config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/login");
-
-    /*
-    $routeProvider
-        .when('/', {
-            redirectTo: '/login'
-        })
-        .when('/login', {
-            templateUrl: 'views/login.html',
-            controller: 'LoginCtrl'
-        })
-        .when('/main', {
-            templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
-    */
-
+    $urlRouterProvider.otherwise("/main");
 
 
 })
@@ -39,15 +20,28 @@ angular.module('w3uiFrontendApp', [
 /**
  * Run Application
   */
-.run(['$rootScope', '$location', 'Authentication',
-    function ($rootScope,  $location, Authentication) {
+.run(['$rootScope', '$state', 'Authentication',
+    function ($rootScope,  $state, Authentication) {
 
-        //$location.path('/login');
+        $rootScope.$on('$stateChangeStart', function(event, next) {
 
-        $rootScope.$on('$stateChangeStart', function(event, next, current) {
-            //console.log('$stateChangeStart',event, next, current);
+            //Check if state is open for public
+            if( next.access !== 'public' ){
+
+                //Check if somebody is logged in
+                if(!Authentication.isLoggedIn()){
+                    event.preventDefault();
+                    $state.go('login');
+
+                }else{
+                    var user = Authentication.get('user');
+                    if( user.role !== next.access ){
+                        event.preventDefault();
+                        $state.go('login');
+                    }
+                }
+            }
+
         });
-
-
 
 }]);

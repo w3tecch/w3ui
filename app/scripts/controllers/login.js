@@ -11,6 +11,7 @@ angular.module('w3uiFrontendApp')
         //access: access.anon,
 
         $stateProvider.state('login', {
+            access: 'public',
             url: '/login',
             views: {
                 'main': {

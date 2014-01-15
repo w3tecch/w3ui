@@ -3,18 +3,28 @@
 angular.module('w3uiFrontendApp')
     .factory('Authentication', function ($http, $cookieStore) {
         // Service logic
-        var user = {};
-        var token = '';
+        var store = {
+            user: undefined,
+            token: undefined
+        };
+
+        var loggedIn = false;
 
 
         // Public API here
         return {
             get: function (key) {
                 try {
-                    return this[key];
+                    return store[key];
                 } catch (e) {
                     return false;
                 }
+            },
+            isLoggedIn: function () {
+                if( store.user === undefined ){
+                    return false;
+                }
+                return loggedIn;
             },
             login: function (formUser, success, error) {
                 $cookieStore.put('APP_ENVIRONMENT', configuration.set('APP_ENVIRONMENT', formUser.server));
@@ -35,20 +45,21 @@ angular.module('w3uiFrontendApp')
                         var newUserObj = {};
                         newUserObj.id = data.user.id;
                         newUserObj.fname = data.user.fname;
-                        newUserObj.lname = data.user.lname;
+                        newUserObj.lastname = data.user.lastname;
                         newUserObj.email = data.user.email;
+                        newUserObj.role = data.user.role;
 
-                        user = newUserObj;
-                        token = headers().authorization;
+                        store.user = newUserObj;
+                        store.token = headers().authorization;
 
-                        $cookieStore.put('W3_TOKEN', Base64.encode(token));
-                        $cookieStore.put('W3_USER', Base64.encode(JSON.stringify(user)));
+                        $cookieStore.put('W3_TOKEN', Base64.encode(store.token));
+                        $cookieStore.put('W3_USER', Base64.encode(JSON.stringify(store.user)));
 
-                        success(newUserObj, data.message, data.status);
+                        loggedIn = true;
+
+                        success(store.user, data.message, data.status);
 
                 }).error(error);
-
-
             }
         };
     });

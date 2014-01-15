@@ -10,6 +10,7 @@ angular.module('w3uiFrontendApp')
     .config(function config($stateProvider) {
 
         $stateProvider.state('main', {
+            access: 'admin',
             url: '/main',
             views: {
                 'main': {
