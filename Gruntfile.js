@@ -340,7 +340,7 @@ module.exports = function (grunt) {
         //         '.tmp/styles/{,*/}*.css',
         //         '<%= yeoman.app %>/styles/{,*/}*.css'
         //       ]
-        //     }
+        //     }animate.css
         //   }
         // },
         // uglify: {

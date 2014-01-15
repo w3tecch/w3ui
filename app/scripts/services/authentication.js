@@ -47,6 +47,7 @@ angular.module('w3uiFrontendApp')
                         newUserObj.fname = data.user.fname;
                         newUserObj.lastname = data.user.lastname;
                         newUserObj.email = data.user.email;
+                        newUserObj.username = newUserObj.fname + ' ' + newUserObj.lastname;
                         newUserObj.role = data.user.role;
 
                         store.user = newUserObj;
