@@ -4,7 +4,8 @@ angular.module('w3uiFrontendApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ui.router'
+    'ui.router',
+    'ngGrid'
 ])
 
 /**
