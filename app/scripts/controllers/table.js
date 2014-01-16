@@ -31,11 +31,11 @@ angular.module('w3uiFrontendApp')
     .controller('TableCtrl', function ($scope) {
 
         $scope.myData = [
-            {name: "Moroni", age: 50},
-            {name: "Tiancum", age: 43},
-            {name: "Jacob", age: 27},
-            {name: "Nephi", age: 29},
-            {name: "Enos", age: 34}
+            {name: 'Moroni', age: 50},
+            {name: 'Tiancum', age: 43},
+            {name: 'Jacob', age: 27},
+            {name: 'Nephi', age: 29},
+            {name: 'Enos', age: 34}
         ];
 
         $scope.gridOptions = {
@@ -46,10 +46,10 @@ angular.module('w3uiFrontendApp')
             columnDefs: [
                 {field:'name', displayName:'Name'},
                 {field:'age', displayName:'Age'},
-                {field:'a', cellTemplate: '<button ng-click="edit(row) type="button" class="btn btn-primary btn-sm">' +
+                {field:'a', cellTemplate: '<button ng-click="edit(row)" type="button" class="btn btn-primary btn-sm">' +
                     '<i class="glyphicons white circle_remove"></i>Bearbeiten</button>'
                 },
-                {field:'b', cellTemplate: '<button ng-click="delete(row) type="button" class="btn btn-danger btn-sm">' +
+                {field:'b', cellTemplate: '<button ng-click="delete(row)" type="button" class="btn btn-danger btn-sm">' +
                     '<i class="glyphicons white circle_remove"></i>Löschen</button>'
                 }
             ]
@@ -58,7 +58,7 @@ angular.module('w3uiFrontendApp')
 
         $scope.edit = function(row){
             console.log('edit ', row) ;
-        },
+        };
 
 
         $scope.delete = function(row){
@@ -66,9 +66,10 @@ angular.module('w3uiFrontendApp')
             var index = $scope.myData.indexOf(row.entity);
             $scope.gridOptions.selectItem(index, false);
             $scope.myData.splice(index, 1);
+            
 
 
-        }
+        };
 
 
     });
