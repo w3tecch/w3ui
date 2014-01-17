@@ -120,7 +120,8 @@ angular.module('w3uiFrontendApp')
                     type: type,
                     dismissQueue: true,
                     layout: 'bottomRight',
-                    theme: 'defaultTheme'
+                    theme: 'defaultTheme',
+                    timeout: 5000
                 });
 
                 queue.push(n);
