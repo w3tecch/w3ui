@@ -43,6 +43,25 @@ angular.module('w3uiFrontendApp')
         };
 
 
+        function print(message, type, timeout){
+            if(timeout === undefined){
+                timeout = 5000;
+            }
+
+            var n = noty({
+                text: message,
+                type: type,
+                dismissQueue: true,
+                layout: 'bottomRight',
+                theme: 'defaultTheme',
+                timeout: timeout
+            });
+
+            queue.push(n);
+            return n.options.id;
+        }
+
+
         // Public API here
         return {
             /**
@@ -71,13 +90,26 @@ angular.module('w3uiFrontendApp')
                 }
             },
 
-            /**
-             * Show Noty
-             *
-             * @param message
-             * @param type
-             * @returns {string}
-             */
+            alert: function (message, timeout) {
+                return print(message, 'alert', timeout);
+            },
+            info: function (message, timeout) {
+                return print(message, 'information', timeout);
+            },
+            success: function (message, timeout) {
+                return print(message, 'success', timeout);
+            },
+            warning: function (message, timeout) {
+                return print(message, 'warning', timeout);
+            },
+            error: function (message, timeout) {
+                return print(message, 'error', timeout);
+            },
+            confirm: function (message, timeout) {
+                return print(message, 'alert', timeout);
+            },
+
+
             show: function (message, type) {
 
                 switch (type) {
@@ -125,7 +157,6 @@ angular.module('w3uiFrontendApp')
                 });
 
                 queue.push(n);
-
                 return n.options.id;
 
             }
