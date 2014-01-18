@@ -13,6 +13,9 @@ Install `compass`:
 gem install compass
 ```
 
+Install `nodeJS`:
+[nodeJS](http://nodejs.org/)
+
 Install `yoeman`:
 ```
 npm install -g yo
