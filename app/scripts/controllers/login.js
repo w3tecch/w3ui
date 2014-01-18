@@ -26,13 +26,14 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('LoginCtrl', function ($scope, $location, Authentication, Noty) {
+    .controller('LoginCtrl', function ($scope, $location, Authentication, Noty, Progressbar) {
         $scope.server = configuration.get('APP_ENVIRONMENT');
 
         $scope.username = 'gery.hirschfeld@w3tec.ch';
         $scope.password = '1234';
 
         $scope.login = function () {
+            Progressbar.show(2,'Überprüfen Anmeldung');
             console.log('login');
 
             Authentication.login({
@@ -46,12 +47,13 @@ angular.module('w3uiFrontendApp')
                     } else {
                         event.returnValue = false;
                     }
-                    $location.path('/main');
+                    $location.path('/rest');
+                    Progressbar.next('Lade Sections Daten');
 
                     Noty.show( message, status );
                 },
                 function (err) {
-
+                    Progressbar.hide();
 
                 }
             );

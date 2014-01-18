@@ -20,8 +20,16 @@ angular.module('w3uiFrontendApp')
                     return false;
                 }
             },
+            set: function (key, value) {
+                try {
+                    store[key] = value;
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
             isLoggedIn: function () {
-                if( store.user === undefined ){
+                if (store.user === undefined) {
                     return false;
                 }
                 return loggedIn;
@@ -32,12 +40,12 @@ angular.module('w3uiFrontendApp')
                 var url = configuration.generateBackendURLHelper();
 
                 $http.defaults.headers.common['API-Key'] = configuration.get('API_KEY');
-                $http.defaults.headers.common['Content-Type'] = configuration.get('CONTENT_TYPE');
 
                 $http({
                     method: 'GET',
                     url: url + 'auth/login',
                     headers: {
+                        'Accept': configuration.get('CONTENT_TYPE'),
                         'API-Secret': configuration.get('API_SECRET'),
                         'Authorization': 'Basic ' + Base64.encode(formUser.username + ':' + formUser.password)
                     }
@@ -60,7 +68,7 @@ angular.module('w3uiFrontendApp')
 
                         success(store.user, data.message, data.status);
 
-                }).error(error);
+                    }).error(error);
             }
         };
     });
