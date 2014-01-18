@@ -13,7 +13,7 @@ angular.module('w3uiFrontendApp', [
   */
 .config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/main");
+    $urlRouterProvider.otherwise("/rest");
 
 
 })

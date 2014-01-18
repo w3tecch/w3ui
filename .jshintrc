@@ -11,6 +11,10 @@
     "unused": true,
     "globals": {
         "angular": true,
-        "jquery": true
+        "jquery": true,
+        "Base64": true,
+        "noty": true,
+        "configuration": true,
+        "$": true
     }
 }
