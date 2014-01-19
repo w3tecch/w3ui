@@ -400,11 +400,38 @@ module.exports = function (grunt) {
                 'options': {
                     'data': {
                         'name': 'temp',
-                        'controller': 'Temp'
+                        'title': 'Temp',
+                        'path': 'Temp'
                     }
                 },
                 'files': {
-                    'app/views/<%= template.view.options.data.name %>.view.html': ['templates/views/.view.html.tpl']
+                    '<%= template.view.options.data.path %>/<%= template.view.options.data.name %>.view.html': ['templates/views/.view.html.tpl']
+                }
+            },
+            'controller': {
+                'options': {
+                    'data': {
+                        'name': 'temp',
+                        'title': 'Temp',
+                        'url': 'Temp',
+                        'path': 'Temp',
+                        'state': 'Temp',
+                        'uiview': 'Temp'
+                    }
+                },
+                'files': {
+                    '<%= template.controller.options.data.path %>/<%= template.controller.options.data.name %>.controller.js': ['templates/views/.controller.js.tpl']
+                }
+            },
+            'style': {
+                'options': {
+                    'data': {
+                        'name': 'temp',
+                        'path': 'Temp'
+                    }
+                },
+                'files': {
+                    '<%= template.style.options.data.path %>/<%= template.style.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
                 }
             }
         }
@@ -471,20 +498,79 @@ module.exports = function (grunt) {
             grunt.warn('Create templates must be specified, like create:view:home');
 
         }else{
-
             var lowerCaseName = name.toLowerCase();
-            var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + this.slice(1);
 
-            //var targetPath = 'app/views/' + lowerCaseName + '/' + lowerCaseName + '.view.html';
-            //var sourcePath = 'templates/views/.view.html.tpl';
+            if(lowerCaseName.indexOf("/") != -1){
+                var aName = lowerCaseName.split('/');
+                lowerCaseName = aName[aName.length-1];
+                var targetFilePath = '';
+                var targetstatePath = '';
+
+                for( var index=0; index<(aName.length-1); index++ ){
+                    targetFilePath += aName[index] + '/';
+                    targetstatePath += aName[index] + '.';
+                }
+
+
+
+                targetstatePath += lowerCaseName;
+
+                //Get URL path
+                var urlStatePath = targetstatePath.split(".").join("/");
+                grunt.log.errorlns([
+                    urlStatePath
+                ]);
+
+                //Get UI-View name
+                var uiViewName = lowerCaseName;
+
+                targetFilePath = 'app/views/' + targetFilePath + lowerCaseName;
+                var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.slice(1);
+
+
+            }else{
+                var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.slice(1);
+                var targetFilePath = 'app/views/' + lowerCaseName;
+                var targetstatePath = lowerCaseName;
+                var urlStatePath = lowerCaseName;
+                var uiViewName = 'body';
+            }
+
+            /*
+            grunt.log.errorlns([
+                targetPath
+            ]);
+            grunt.log.errorlns([
+                lowerCaseName
+            ]);
+            grunt.log.errorlns([
+                capitalizedName
+            ]);
+            */
+
 
             grunt.config.set('template.view.options.data.name', lowerCaseName);
-            grunt.config.set('template.view.options.data.controller', capitalizedName);
+            grunt.config.set('template.view.options.data.path', targetFilePath);
+            grunt.config.set('template.view.options.data.title', capitalizedName);
+            grunt.config.set('template.controller.options.data.name', lowerCaseName);
+            grunt.config.set('template.controller.options.data.path', targetFilePath);
+            grunt.config.set('template.controller.options.data.state', targetstatePath);
+            grunt.config.set('template.controller.options.data.title', capitalizedName);
+            grunt.config.set('template.controller.options.data.url', urlStatePath);
+            grunt.config.set('template.controller.options.data.uiview', uiViewName);
+            grunt.config.set('template.style.options.data.name', lowerCaseName);
+            grunt.config.set('template.style.options.data.path', targetFilePath);
 
 
             switch(type){
                 case 'view':
-                    grunt.task.run(['template:view']);
+                    if( !grunt.file.exists(targetFilePath) ){
+                        grunt.task.run(['template:view', 'template:controller', 'template:style']);
+
+                    }else{
+                        grunt.log.errorlns('Directory "' + targetPath + '" already exists');
+                    }
+
                     break;
                 default:
                     grunt.warn('No such type available.');
