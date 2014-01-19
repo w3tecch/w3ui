@@ -8,7 +8,6 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-
         $stateProvider.state('rest', {
             access: 'admin',
             url: '/rest',
@@ -31,10 +30,7 @@ angular.module('w3uiFrontendApp')
     .controller('RestCtrl', function ($scope, Ajax, Noty, Progressbar) {
         Progressbar.show(1, 'Lade Sections Daten');
         $scope.modalID = 'modalRest';
-        $scope.modalType = '';
-        $scope.showInputID = true;
-        $scope.modalButtonType = 'success';
-        $scope.modalButtonText = 'Speichern';
+
 
         /**
          * Grid Options
@@ -91,6 +87,7 @@ angular.module('w3uiFrontendApp')
             $scope.showInputID = false;
             $scope.modalButtonType = 'success';
             $scope.modalButtonText = 'Speichern';
+            $scope.modalEntity = {};
         };
 
         /**
@@ -101,12 +98,13 @@ angular.module('w3uiFrontendApp')
         $scope.openEditModel = function (row){
             $scope.modalTitle = row.entity.name + ' bearbeiten';
             $scope.modalMode = 'POST';
-            $scope.modalType = 'Edit';
+            $scope.modalType = 'Update';
             $scope.modalInputName = row.entity.name;
             $scope.modalInputID = row.entity.id;
             $scope.showInputID = true;
             $scope.modalButtonType = 'success';
             $scope.modalButtonText = 'Speichern';
+            $scope.modalEntity = row.entity;
         };
 
         /**
@@ -123,6 +121,7 @@ angular.module('w3uiFrontendApp')
             $scope.showInputID = true;
             $scope.modalButtonType = 'danger';
             $scope.modalButtonText = 'Löschen';
+            $scope.modalEntity = row.entity;
         };
 
         /**
@@ -130,29 +129,99 @@ angular.module('w3uiFrontendApp')
          */
         $scope.saveModal = function () {
             $('#'+$scope.modalID).modal('hide');
-            Progressbar.show(2, 'Speichere neues Element');
+            Progressbar.show(3, 'Daten überprüfen');
 
+            var data = {
+                id: $scope.modalInputID,
+                name: $scope.modalInputName
+            };
+
+            switch($scope.modalType){
+                case 'Add':
+                    $scope.addRow(data);
+                    break;
+                case 'Update':
+                    $scope.updateRow(data);
+                    break;
+                case 'Delete':
+                    $scope.deleteRow(data);
+                    break;
+            }
+        };
+
+        /**
+         * Add row to database
+         *
+         * @param row
+         */
+        $scope.addRow = function(row){
+            Progressbar.next('Speichere neues Element');
             Ajax.post({
                     url: 'section',
-                    data: {
-                        name: $scope.modalInputName
-                    }
+                    data: row
                 },
                 function (data, message, status) {
-                    console.log('SUCCESS -> ', data, message, status);
-                    $scope.loadData();
                     Progressbar.next('Daten werden synchronisiert');
+                    $scope.myData.push(data);
                     Noty.success('Daten wurden gespeichert');
-
                 },
                 function (err) {
-                    console.log('ERROR -> ', err);
                     Noty.error('Fehler beim Speichern der Daten');
+                },
+                function () {
                     Progressbar.hide();
-
                 }
             );
+        };
 
+        /**
+         * Update row
+         *
+         * @param data
+         */
+        $scope.updateRow = function(row){
+            Progressbar.next('Speichere geändertes Element');
+            Ajax.post({
+                    url: 'section/' + row.id,
+                    data: row
+                },
+                function (data, message, status) {
+                    Progressbar.next('Sync Data');
+                    $scope.loadData();
+                    Noty.success('Daten wurden gespeichert');
+                },
+                function (err) {
+                    Noty.error('Fehler beim Speichern der Daten');
+                },
+                function () {
+                    Progressbar.hide();
+                }
+            );
+        };
+
+        /**
+         * Delete row
+         * TODO: all
+         *
+         * @param data
+         */
+        $scope.deleteRow = function(row){
+            Progressbar.next('Lösche Element');
+            Ajax.delete({
+                    url: 'section/' + row.id
+                },
+                function (data, message, status) {
+                    Progressbar.next('Daten werden synchronisiert');
+                    $scope.loadData();
+                    Noty.success('Daten wurden gelöscht');
+                },
+                function (err) {
+                    Noty.error('Fehler beim Speichern der Daten');
+                },
+                function () {
+                    Progressbar.hide();
+                }
+            );
         };
 
 

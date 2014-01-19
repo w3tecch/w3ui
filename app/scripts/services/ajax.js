@@ -16,7 +16,7 @@ angular.module('w3uiFrontendApp')
          * @param requestSuccess
          * @param requestError
          */
-        function run(requestData, requestSuccess, requestError) {
+        function run(requestData, requestSuccess, requestError, requestDone) {
             var url = $.trim(backendUrl + requestData.url);
             var method = $.trim(requestData.method);
             var headers = {
@@ -25,17 +25,65 @@ angular.module('w3uiFrontendApp')
                 'Authorization': Authentication.get('token')
             };
 
-            //Without request data
-            if (method == 'GET') {
+
+            //Check function vars
+            var isRequestSuccessSet = false;
+            var isRequestErrorSet = false;
+            var isRequestDoneSet = false;
+            if (typeof requestSuccess == 'function') {
+                isRequestSuccessSet = true;
+            }
+            if (typeof requestError == 'function') {
+                isRequestErrorSet = true;
+            }
+            if (typeof requestDone == 'function') {
+                isRequestDoneSet = true;
+            }
+
+
+                //Without request data
+            if (method == 'GET' || method == 'OPTIONS' || method == 'DELETE') {
                 $http({
                     method: method,
                     url: url,
                     headers: headers
                 }).success(function (responseBody, status, headers) {
                     Authentication.set('token', headers().authorization);
-                    requestSuccess(responseBody.data, responseBody.message, responseBody.status);
 
-                }).error(requestError);
+                    if(isRequestSuccessSet){
+                        try {
+                            requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Success Function Defined');
+                        }
+                    }
+
+                    if(isRequestDoneSet){
+                        try {
+                            requestDone(responseBody.message, responseBody.status, headers);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                        }
+                    }
+
+                }).error(function () {
+                    if(isRequestErrorSet){
+                        try {
+                            requestError(responseBody.message, responseBody.status);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Error Function Defined');
+                        }
+                    }
+
+                    if(isRequestDoneSet){
+                        try {
+                            requestDone(responseBody.message, responseBody.status, headers);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                        }
+                    }
+                });
+
 
             //With request data
             } else {
@@ -51,10 +99,42 @@ angular.module('w3uiFrontendApp')
                     headers: headers
                 }).success(function (responseBody, status, headers) {
                     Authentication.set('token', headers().authorization);
-                    requestSuccess(responseBody.data, responseBody.message, responseBody.status);
 
-                }).error(requestError);
+                    if(isRequestSuccessSet){
+                        try {
+                            requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Success Function Defined');
+                        }
+                    }
 
+                    if(isRequestDoneSet){
+                        try {
+                            requestDone(responseBody.message, responseBody.status, headers);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                        }
+                    }
+
+
+                }).error(function () {
+                    if(isRequestErrorSet){
+                        try {
+                            requestError(responseBody.message, responseBody.status);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Error Function Defined');
+                        }
+                    }
+
+                    if(isRequestDoneSet){
+                        try {
+                            requestDone(responseBody.message, responseBody.status, headers);
+                        } catch (e) {
+                            console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                        }
+                    }
+
+                });
             }
         }
 
@@ -63,19 +143,21 @@ angular.module('w3uiFrontendApp')
          * Public API
          */
         return {
-            get: function (data, success, error) {
-                data.method = 'GET';
-                run(data, success, error);
+            get: function (options, success, error, done) {
+                options.method = 'GET';
+                run(options, success, error, done);
             },
-            post: function (data, success, error) {
-                data.method = 'POST';
-                run(data, success, error);
+            post: function (options, success, error, done) {
+                options.method = 'POST';
+                run(options, success, error, done);
             },
-            put: function (data, success, error) {
-                data.method = 'PUT';
+            put: function (options, success, error, done) {
+                options.method = 'PUT';
+                run(options, success, error, done);
             },
-            delete: function (data, success, error) {
-                data.method = 'DELETE';
+            delete: function (options, success, error, done) {
+                options.method = 'DELETE';
+                run(options, success, error, done);
             }
         };
     });

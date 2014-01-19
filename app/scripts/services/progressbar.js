@@ -84,9 +84,8 @@ angular.module('w3uiFrontendApp')
          * @param text
          */
         function next(text) {
-            console.log('next', text);
             setText(text);
-            var widthStep = widthMax / max
+            var widthStep = widthMax / max;
             count++;
             add(20 + ( widthStep * count  ));
         }

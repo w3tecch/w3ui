@@ -34,7 +34,6 @@ angular.module('w3uiFrontendApp')
 
         $scope.login = function () {
             Progressbar.show(2,'Überprüfen Anmeldung');
-            console.log('login');
 
             Authentication.login({
                     username: $scope.username,
