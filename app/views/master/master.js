@@ -9,29 +9,26 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
 
-        $stateProvider.state('main', {
+        /*$stateProvider.state('master', {
             access: 'admin',
-            url: '/main',
+            url: '/',
             views: {
-                'main': {
-                    controller: 'MainCtrl',
-                    templateUrl: 'views/main.html'
+                'body': {
+                    controller: 'RestCtrl',
+                    templateUrl: 'views/rest/rest.html'
                 },
                 'navigation': {
                     controller: 'NavigationCtrl',
-                    templateUrl: 'views/navigation.html'
+                    templateUrl: 'views/navigation/navigation.html'
                 }
             }
-        });
+        });*/
+
     })
 
 /**
  * And of course we define a controller for our route.
  */
-    .controller('MainCtrl', function ($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('MasterCtrl', function ($scope) {
+
     });

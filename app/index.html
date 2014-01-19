@@ -31,16 +31,23 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<header ui-view="navigation"></header>
+<!--header ui-view="navigation"></header>
 
-<div class="container" ui-view="main"></div>
+<div class="container" ui-view="main"></div-->
 
-<!-- Proress Bar -->
+
+
+
+<div ui-view></div>
+
+
+
+
+<!-- Proress Bar ->
 <div class="modal fade" id="modalProgressbar" tabindex="-1" role="dialog" aria-labelledby="modalProgressbarLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
                 <h4 class="modal-title" id="modalProgressbarLabel">Bitte Warten...</h4>
             </div>
             <div class="modal-body">
@@ -53,8 +60,8 @@
             <div class="modal-footer">
                 <p id="modalProgressbar-text"></p>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+        </div><!-- /.modal-content ->
+    </div><!-- /.modal-dialog ->
 </div><!-- /.modal -->
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -93,15 +100,15 @@
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/configuration.js"></script>
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/login.js"></script>
-<script src="scripts/services/authentication.js"></script>
-<script src="scripts/services/noty.js"></script>
-<script src="scripts/services/ajax.js"></script>
-<script src="scripts/controllers/navigation.js"></script>
-<script src="scripts/controllers/table.js"></script>
-<script src="scripts/controllers/rest.js"></script>
-<script src="scripts/services/Progressbar.js"></script>
+<script src="views/home/home.js"></script>
+<script src="views/login/login.js"></script>
+<script src="scripts/factories/authentication.js"></script>
+<script src="scripts/factories/noty.js"></script>
+<script src="scripts/factories/ajax.js"></script>
+<script src="scripts/factories/Progressbar.js"></script>
+<script src="views/navigation/navigation.js"></script>
+<script src="views/table/table.js"></script>
+<script src="views/rest/rest.js"></script>
 <!-- endbuild -->
 </body>
 </html>

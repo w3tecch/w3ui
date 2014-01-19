@@ -14,9 +14,9 @@ angular.module('w3uiFrontendApp')
             access: 'public',
             url: '/login',
             views: {
-                'main': {
+                '': {
                     controller: 'LoginCtrl',
-                    templateUrl: 'views/login.html'
+                    templateUrl: 'views/login/login.html'
                 }
             }
         });
@@ -46,7 +46,7 @@ angular.module('w3uiFrontendApp')
                     } else {
                         event.returnValue = false;
                     }
-                    $location.path('/rest');
+                    $location.path('/home');
                     Progressbar.next('Lade Sections Daten');
 
                     Noty.show( message, status );
