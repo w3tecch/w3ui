@@ -321,6 +321,26 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>/styles',
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
+            },
+            create_temp_view: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'templates/views/',
+                        src: ['*'],
+                        dest: 'app/views/',
+                        rename: function(dest, src) {
+                            // use the source directory to create the file
+                            // example with your directory structure
+                            //   dest = 'dev/js/'
+                            //   src = 'module1/js/main.js'
+                            grunt.config.get('createTemplateName');
+
+
+                            return src;
+                        }
+                    }
+                ]
             }
         },
 
@@ -371,9 +391,26 @@ module.exports = function (grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true
             }
+        },
+
+
+
+        'template': {
+            'view': {
+                'options': {
+                    'data': {
+                        'name': 'temp',
+                        'controller': 'Temp'
+                    }
+                },
+                'files': {
+                    'app/views/<%= template.view.options.data.name %>.view.html': ['templates/views/.view.html.tpl']
+                }
+            }
         }
     });
 
+    //grunt.loadNpmTasks('grunt-template');
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -425,4 +462,38 @@ module.exports = function (grunt) {
         'test',
         'build'
     ]);
+
+    /**
+     * Custom Tasks
+     */
+    grunt.registerTask('create', 'Create a template', function(type, name) {
+        if (type == null || name == null) {
+            grunt.warn('Create templates must be specified, like create:view:home');
+
+        }else{
+
+            var lowerCaseName = name.toLowerCase();
+            var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + this.slice(1);
+
+            //var targetPath = 'app/views/' + lowerCaseName + '/' + lowerCaseName + '.view.html';
+            //var sourcePath = 'templates/views/.view.html.tpl';
+
+            grunt.config.set('template.view.options.data.name', lowerCaseName);
+            grunt.config.set('template.view.options.data.controller', capitalizedName);
+
+
+            switch(type){
+                case 'view':
+                    grunt.task.run(['template:view']);
+                    break;
+                default:
+                    grunt.warn('No such type available.');
+                    break;
+
+            }
+
+
+        }
+
+    });
 };
