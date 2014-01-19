@@ -39,8 +39,11 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+                files: [
+                    '<%= yeoman.app %>/styles/{,*/}*.{scss,sass}',
+                    '<%= yeoman.app %>/views/{,*/}*.{scss,sass}'
+                ],
+                tasks: ['compass:server','compass:serverViews', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -176,6 +179,12 @@ module.exports = function (grunt) {
             },
             server: {
                 options: {
+                    debugInfo: true
+                }
+            },
+            serverViews: {
+                options: {
+                    sassDir: '<%= yeoman.app %>/views',
                     debugInfo: true
                 }
             }
@@ -318,7 +327,7 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
-                'compass:server'
+                'compass:server', 'compass:serverViews'
             ],
             test: [
                 'compass'

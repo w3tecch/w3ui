@@ -8,18 +8,13 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-
-        $stateProvider.state('table', {
+        $stateProvider.state('master.table',{
             access: 'admin',
-            url: '/table',
-            views: {
-                'main': {
+            url: 'table',
+            views :{
+                'body': {
                     controller: 'TableCtrl',
-                    templateUrl: 'views/table.html'
-                },
-                'navigation': {
-                    controller: 'NavigationCtrl',
-                    templateUrl: 'views/navigation.html'
+                    templateUrl: 'views/table/table.view.html'
                 }
             }
         });

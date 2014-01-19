@@ -14,9 +14,9 @@ angular.module('w3uiFrontendApp')
             access: 'public',
             url: '/login',
             views: {
-                'main': {
+                '': {
                     controller: 'LoginCtrl',
-                    templateUrl: 'views/login.html'
+                    templateUrl: 'views/login/login.view.html'
                 }
             }
         });
@@ -33,7 +33,7 @@ angular.module('w3uiFrontendApp')
         $scope.password = '1234';
 
         $scope.login = function () {
-            Progressbar.show(2,'Überprüfen Anmeldung');
+            Progressbar.show(1,'Überprüfen Anmeldung');
 
             Authentication.login({
                     username: $scope.username,
@@ -46,8 +46,8 @@ angular.module('w3uiFrontendApp')
                     } else {
                         event.returnValue = false;
                     }
-                    $location.path('/rest');
-                    Progressbar.next('Lade Sections Daten');
+                    $location.path('/home');
+                    Progressbar.hide();
 
                     Noty.show( message, status );
                 },

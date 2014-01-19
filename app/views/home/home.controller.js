@@ -9,26 +9,23 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
 
-        $stateProvider.state('main', {
+        $stateProvider.state('master.home',{
             access: 'admin',
-            url: '/main',
-            views: {
-                'main': {
-                    controller: 'MainCtrl',
-                    templateUrl: 'views/main.html'
-                },
-                'navigation': {
-                    controller: 'NavigationCtrl',
-                    templateUrl: 'views/navigation.html'
+            url: 'home',
+            views :{
+                'body': {
+                    controller: 'HomeCtrl',
+                    templateUrl: 'views/home/home.view.html'
                 }
             }
         });
+
     })
 
 /**
  * And of course we define a controller for our route.
  */
-    .controller('MainCtrl', function ($scope) {
+    .controller('HomeCtrl', function ($scope) {
         $scope.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',

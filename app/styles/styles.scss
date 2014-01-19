@@ -6,9 +6,9 @@
 @import 'glyphicons.scss';
 
 /* Construct */
-@import 'main.scss';
-@import 'table.scss';
+@import 'w3ui-construct.scss';
+@import 'grid.scss';
 
 /* Views */
-@import 'login.scss';
-@import 'navigation.scss';
+@import '../views/navigation/navigation.style.scss';
+@import '../views/login/login.style.scss';

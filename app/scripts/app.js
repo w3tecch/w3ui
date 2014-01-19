@@ -13,8 +13,23 @@ angular.module('w3uiFrontendApp', [
   */
 .config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/rest");
+    //$urlRouterProvider.otherwise("/rest");
 
+    $urlRouterProvider.otherwise('/home');
+
+    $stateProvider.state('master', {
+        access: 'admin',
+        url: '/',
+        views: {
+            '': {
+                templateUrl: 'views/master/master.view.html'
+            },
+            'navigation@master': {
+                controller: 'NavigationCtrl',
+                templateUrl: 'views/navigation/navigation.view.html'
+            }
+        }
+    });
 
 })
 
