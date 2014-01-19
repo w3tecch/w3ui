@@ -14,7 +14,7 @@ angular.module('w3uiFrontendApp')
             views :{
                 'body': {
                     controller: 'RestCtrl',
-                    templateUrl: 'views/rest/rest.html'
+                    templateUrl: 'views/rest/rest.view.html'
                 }
             }
         });

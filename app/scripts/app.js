@@ -22,14 +22,11 @@ angular.module('w3uiFrontendApp', [
         url: '/',
         views: {
             '': {
-                templateUrl: 'views/master/master.html'
+                templateUrl: 'views/master/master.view.html'
             },
             'navigation@master': {
                 controller: 'NavigationCtrl',
-                templateUrl: 'views/navigation/navigation.html'
-            },
-            'progressBar@master': {
-                templateUrl: 'views/master/progressBar.html'
+                templateUrl: 'views/navigation/navigation.view.html'
             }
         }
     });

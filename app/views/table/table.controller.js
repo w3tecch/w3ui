@@ -14,7 +14,7 @@ angular.module('w3uiFrontendApp')
             views :{
                 'body': {
                     controller: 'TableCtrl',
-                    templateUrl: 'views/table/table.html'
+                    templateUrl: 'views/table/table.view.html'
                 }
             }
         });
