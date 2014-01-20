@@ -43,7 +43,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/styles/{,*/}*.{scss,sass}',
                     '<%= yeoman.app %>/views/{,*/}*.{scss,sass}'
                 ],
-                tasks: ['compass:server','compass:serverViews', 'autoprefixer']
+                tasks: ['sass-directory-imports','compass:server','compass:serverViews', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -393,9 +393,19 @@ module.exports = function (grunt) {
             }
         },
 
-
-
+        // Custom Task for creation files with a template
         'template': {
+            'factory': {
+                'options': {
+                    'data': {
+                        'name': 'temp',
+                        'path': 'temp'
+                    }
+                },
+                'files': {
+                    'app/scripts/factories/<%= template.factory.options.data.path %>.js': ['templates/factory.js.tpl']
+                }
+            },
             'view': {
                 'options': {
                     'data': {
@@ -434,10 +444,25 @@ module.exports = function (grunt) {
                     '<%= template.style.options.data.path %>/<%= template.style.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
                 }
             }
+        },
+
+        // Custom Task Configuration
+        'sass-directory-imports': {
+            // This is an arbitrary name for this sub-task
+
+            views: {
+                options: {
+                    dest: 'app/styles/views.scss'
+                },
+                files: {
+                    src: [
+                        'app/views/**/*style.scss'
+                    ]
+                }
+            }
         }
     });
 
-    //grunt.loadNpmTasks('grunt-template');
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -447,6 +472,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'bower-install',
+            'sass-directory-imports',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -493,9 +519,41 @@ module.exports = function (grunt) {
     /**
      * Custom Tasks
      */
-    grunt.registerTask('create', 'Create a template', function(type, name) {
-        if (type == null || name == null) {
-            grunt.warn('Create templates must be specified, like create:view:home');
+    grunt.registerTask('create-factory', 'Create a template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-factory:Test');
+
+        }else{
+            var targetPath = 'app/scripts/factories/';
+
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+
+            if(input.indexOf("/") != -1){
+                var arrayInput = input.split('/');
+                title = aName[aName.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+
+            }
+
+            grunt.config.set('template.factory.options.data.name', title);
+            grunt.config.set('template.factory.options.data.path', name);
+
+
+
+            if( !grunt.file.exists(targetFilePath) ){
+                grunt.task.run(['template:factory']);
+
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + '" already exists');
+            }
+        }
+    });
+
+
+    grunt.registerTask('create-view', 'Create a template', function(name) {
+        if (name == null) {
+            grunt.warn('Create templates must be specified, like create-view:Test');
 
         }else{
             var lowerCaseName = name.toLowerCase();
@@ -510,8 +568,6 @@ module.exports = function (grunt) {
                     targetFilePath += aName[index] + '/';
                     targetstatePath += aName[index] + '.';
                 }
-
-
 
                 targetstatePath += lowerCaseName;
 
@@ -536,19 +592,6 @@ module.exports = function (grunt) {
                 var uiViewName = 'body';
             }
 
-            /*
-            grunt.log.errorlns([
-                targetPath
-            ]);
-            grunt.log.errorlns([
-                lowerCaseName
-            ]);
-            grunt.log.errorlns([
-                capitalizedName
-            ]);
-            */
-
-
             grunt.config.set('template.view.options.data.name', lowerCaseName);
             grunt.config.set('template.view.options.data.path', targetFilePath);
             grunt.config.set('template.view.options.data.title', capitalizedName);
@@ -561,25 +604,40 @@ module.exports = function (grunt) {
             grunt.config.set('template.style.options.data.name', lowerCaseName);
             grunt.config.set('template.style.options.data.path', targetFilePath);
 
+            if( !grunt.file.exists(targetFilePath) ){
+                grunt.task.run(['template:view', 'template:controller', 'template:style', 'sass-directory-imports']);
 
-            switch(type){
-                case 'view':
-                    if( !grunt.file.exists(targetFilePath) ){
-                        grunt.task.run(['template:view', 'template:controller', 'template:style']);
-
-                    }else{
-                        grunt.log.errorlns('Directory "' + targetPath + '" already exists');
-                    }
-
-                    break;
-                default:
-                    grunt.warn('No such type available.');
-                    break;
-
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + '" already exists');
             }
+        }
+    });
 
+
+    grunt.registerMultiTask(
+        'sass-directory-imports',
+        'Write SASS @import statements to a single file to include a directory\'s entire contents dynamically.',
+        function () {
+            var srcFiles = this.filesSrc; //grunt.config.get('sass-directory-imports.views.files.src'); //this.filesSrc;
+            var destFile = grunt.config.get('sass-directory-imports.views.options.dest');
+
+            var newFileContents = [
+                '// This file imports all view styles .scss files in this directory.',
+                '// It is automatically generated by the grunt compass-directory-includes task.',
+                '// Do not directly modify this file.',
+                ''
+            ];
+
+            srcFiles.forEach(function (filepath) {
+                var includeFile = filepath.replace("app","..");
+                newFileContents.push('@import "' + includeFile + '";');
+                grunt.log.oklns('@import "' + includeFile + '";');
+
+            });
+
+            newFileContents = newFileContents.join('\n');
+            grunt.file.write(destFile, newFileContents);
 
         }
-
-    });
+    );
 };
