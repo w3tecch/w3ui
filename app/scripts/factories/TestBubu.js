@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('w3uiFrontendApp')
-    .factory('<%= name %>', function () {
+    .factory('TestBubu', function () {
 
         /**
          *  Local variables
          */
         var store = {
-            name: '<%= name %>'
+            name: 'TestBubu'
         };
 
 
