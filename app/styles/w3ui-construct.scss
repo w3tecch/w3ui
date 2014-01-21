@@ -426,13 +426,14 @@ ul.main-navigation-menu > li > ul.sub-menu li > a .icon-arrow {
 }
 
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
-  border-width: 1px;
+  /*border-width: 1px;
   border-style: solid;
-  border-radius: 0 0 0 0 !important;
+  border-radius: 0 0 0 0;
   font-family: inherit;
   font-size: 14px;
   line-height: 1.2;
   padding: 5px 4px;
+  */
   transition-duration: 0.1s;
   box-shadow: none;
 }
