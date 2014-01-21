@@ -14,7 +14,11 @@ angular.module('w3uiFrontendApp')
             access: 'public',
             url: '/login',
             views: {
-                '': {
+                'header': {
+                    controller: 'HeaderCtrl',
+                    templateUrl: 'views/master/header/header.view.html'
+                },
+                'main': {
                     controller: 'LoginCtrl',
                     templateUrl: 'views/login/login.view.html'
                 }

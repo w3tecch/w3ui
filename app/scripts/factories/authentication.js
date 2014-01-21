@@ -4,8 +4,8 @@ angular.module('w3uiFrontendApp')
     .factory('Authentication', function ($http, $cookieStore) {
         // Service logic
         var store = {
-            user: undefined,
-            token: undefined
+            user: false,
+            token: false
         };
 
         var loggedIn = false;

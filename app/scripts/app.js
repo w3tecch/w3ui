@@ -19,7 +19,6 @@ angular.module('w3uiFrontendApp', [
 
     $stateProvider
         .state('master', {
-
             access: 'public',
             url: '/',
             views: {
@@ -54,14 +53,14 @@ angular.module('w3uiFrontendApp', [
 
                 //Check if somebody is logged in
                 if(!Authentication.isLoggedIn()){
-                    //event.preventDefault();
-                    //$state.go('login');
+                    event.preventDefault();
+                    $state.go('login');
 
                 }else{
                     var user = Authentication.get('user');
                     if( user.role !== next.access ){
-                        //event.preventDefault();
-                        //$state.go('login');
+                        event.preventDefault();
+                        $state.go('login');
                     }
                 }
             }
