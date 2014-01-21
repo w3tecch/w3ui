@@ -19,7 +19,7 @@ angular.module('w3uiFrontendApp', [
 
     $stateProvider
         .state('master', {
-            access: 'public',
+            access: 'admin',
             url: '/',
             views: {
                 'header': {
