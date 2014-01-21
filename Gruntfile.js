@@ -397,70 +397,74 @@ module.exports = function (grunt) {
         'template': {
             'state':{
                 'options': {
-                    'dest': 'app/views/',
-                    'ui-view': 'body',
-                    'state-path': 'mater.',
-                    'name': '',
-                    'url': '',
-                    'controller': ''
+                    'data':{
+                        'dest': 'app/views/',
+                        'ui-view': 'body',
+                        'state': 'master.',
+                        'name': '',
+                        'url': '',
+                        'controller': ''
+                    }
                 },
                 'files': {
-                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.view.html': ['templates/views/.view.html.tpl'],
-                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.controller.js': ['templates/views/.controller.js.tpl'],
-                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
+                    '<%= template.state.options.data.dest %>/<%= template.state.options.data.name %>.view.html': ['templates/views/.view.html.tpl'],
+                    '<%= template.state.options.data.dest %>/<%= template.state.options.data.name %>.controller.js': ['templates/views/.controller.js.tpl'],
+                    '<%= template.state.options.data.dest %>/<%= template.state.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
                 }
             },
             'factory': {
                 'options': {
-                    'data': {
+                    'data':{
                         'dest': 'app/scripts/factories/',
-                        'name': 'temp',
-                        'title': 'Temp',
-                        'path': 'temp'
+                        'name': '',
+                        'title': '',
+                        'path': ''
                     }
                 },
                 'files': {
                     '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.js': ['templates/scripts/factory.js.tpl']
                 }
             },
-            'view': {
+            'filter': {
                 'options': {
-                    'data': {
-                        'name': 'temp',
-                        'title': 'Temp',
-                        'path': 'Temp'
+                    'data':{
+                        'dest': 'app/scripts/filter/',
+                        'name': '',
+                        'title': '',
+                        'path': ''
                     }
                 },
                 'files': {
-                    '<%= template.view.options.data.path %>/<%= template.view.options.data.name %>.view.html': ['templates/views/.view.html.tpl']
+                    '<%= template.filter.options.data.dest %><%= template.filter.options.data.name %>.js': ['templates/scripts/filter.js.tpl']
                 }
             },
-            'controller': {
+            'provider': {
                 'options': {
-                    'data': {
-                        'name': 'temp',
-                        'title': 'Temp',
-                        'url': 'Temp',
-                        'path': 'Temp',
-                        'state': 'Temp',
-                        'uiview': 'Temp'
+                    'data':{
+                        'dest': 'app/scripts/provider/',
+                        'name': '',
+                        'title': '',
+                        'path': ''
                     }
                 },
                 'files': {
-                    '<%= template.controller.options.data.path %>/<%= template.controller.options.data.name %>.controller.js': ['templates/views/.controller.js.tpl']
+                    '<%= template.provider.options.data.dest %><%= template.provider.options.data.name %>.js': ['templates/scripts/provider.js.tpl']
                 }
             },
-            'style': {
+            'directives': {
                 'options': {
-                    'data': {
-                        'name': 'temp',
-                        'path': 'Temp'
+                    'data':{
+                        'dest': 'app/scripts/directives/',
+                        'name': '',
+                        'title': '',
+                        'path': ''
                     }
                 },
                 'files': {
-                    '<%= template.style.options.data.path %>/<%= template.style.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
+                    '<%= template.directives.options.data.dest %><%= template.directives.options.data.name %>.js': ['templates/scripts/directives.js.tpl']
                 }
             }
+
         },
 
         // Custom Task Configuration
@@ -534,28 +538,23 @@ module.exports = function (grunt) {
     ]);
 
     /**
-     * Custom Tasks
+     * Create-Factory from a template
      */
-    grunt.registerTask('create-factory', 'Create a template', function(input) {
+    grunt.registerTask('create-factory', 'Create a factory template', function(input) {
         if (input == null) {
             grunt.warn('Create templates must be specified, like create-factory:Test');
-
         }else{
             var targetPath = grunt.config.get('template.factory.options.data.dest'); //'app/scripts/factories/';
-
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-
             if(input.indexOf("/") != -1){
                 var arrayInput = input.split('/');
                 title = aName[aName.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
-
             grunt.config.set('template.factory.options.data.title', title);
             grunt.config.set('template.factory.options.data.name', name);
             grunt.config.set('template.factory.options.data.path', name);
-
             if( !grunt.file.exists(targetPath + name) ){
                 grunt.task.run(['template:factory']);
             }else{
@@ -564,18 +563,125 @@ module.exports = function (grunt) {
         }
     });
 
+    /**
+     * Create-Directives from a template
+     */
+    grunt.registerTask('create-directives', 'Create a directives template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-directives:Test');
+        }else{
+            var targetPath = grunt.config.get('template.directives.options.data.dest'); //'app/scripts/factories/';
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+            if(input.indexOf("/") != -1){
+                var arrayInput = input.split('/');
+                title = aName[aName.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+            grunt.config.set('template.directives.options.data.title', title);
+            grunt.config.set('template.directives.options.data.name', name);
+            grunt.config.set('template.directives.options.data.path', name);
+            if( !grunt.file.exists(targetPath + name) ){
+                grunt.task.run(['template:directives']);
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
+            }
+        }
+    });
 
+    /**
+     * Create-Filter from a template
+     */
+    grunt.registerTask('create-filter', 'Create a filter template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-filter:Test');
+        }else{
+            var targetPath = grunt.config.get('template.filter.options.data.dest'); //'app/scripts/factories/';
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+            if(input.indexOf("/") != -1){
+                var arrayInput = input.split('/');
+                title = aName[aName.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+            grunt.config.set('template.filter.options.data.title', title);
+            grunt.config.set('template.filter.options.data.name', name);
+            grunt.config.set('template.filter.options.data.path', name);
+            if( !grunt.file.exists(targetPath + name) ){
+                grunt.task.run(['template:filter']);
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
+            }
+        }
+    });
+
+    /**
+     * Create-Provider from a template
+     */
+    grunt.registerTask('create-provider', 'Create a provider template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-provider:Test');
+        }else{
+            var targetPath = grunt.config.get('template.provider.options.data.dest'); //'app/scripts/factories/';
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+            if(input.indexOf("/") != -1){
+                var arrayInput = input.split('/');
+                title = aName[aName.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+            grunt.config.set('template.provider.options.data.title', title);
+            grunt.config.set('template.provider.options.data.name', name);
+            grunt.config.set('template.provider.options.data.path', name);
+            if( !grunt.file.exists(targetPath + name) ){
+                grunt.task.run(['template:provider']);
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
+            }
+        }
+    });
+
+    /**
+     * Create-Service from a template
+     */
+    grunt.registerTask('create-service', 'Create a service template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-service:Test');
+        }else{
+            var targetPath = grunt.config.get('template.service.options.data.dest'); //'app/scripts/factories/';
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+            if(input.indexOf("/") != -1){
+                var arrayInput = input.split('/');
+                title = aName[aName.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+            grunt.config.set('template.service.options.data.title', title);
+            grunt.config.set('template.service.options.data.name', name);
+            grunt.config.set('template.service.options.data.path', name);
+            if( !grunt.file.exists(targetPath + name) ){
+                grunt.task.run(['template:service']);
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
+            }
+        }
+    });
+
+    /**
+     * Create-State from a template
+     */
     grunt.registerTask('create-state', 'Create a template', function(input) {
         if (input == null) {
             grunt.warn('Create templates must be specified, like create-state:Test');
 
         }else{
-            var targetPath = grunt.config.get('template.state.options.data.dest') + input;
+            var targetPath = grunt.config.get('template.state.options.data.dest');
             var name = input;
             var state = name;
             var uiView = grunt.config.get('template.state.options.data.ui-view');
             var url = '/' + name;
             var controller = name.charAt(0).toUpperCase() + name.slice(1);
+            targetPath = targetPath + name;
 
             //Nested state
             if(name.indexOf("/") != -1){
@@ -583,82 +689,27 @@ module.exports = function (grunt) {
                 name = aName[aName.length-1];
                 controller = name.charAt(0).toUpperCase() + name.slice(1);
                 state = aName.join('.');
-
+                uiView = name;
             }
 
-            state = grunt.config.get('template.state.options.data.state-path') + '.' + state;
+            state = grunt.config.get('template.state.options.data.state') + state;
 
             //Set options for the task
             grunt.config.set('template.state.options.data.name', name);
             grunt.config.set('template.state.options.data.dest', targetPath);
-            grunt.config.set('template.state.options.data.state-path', state);
+            grunt.config.set('template.state.options.data.state', state);
             grunt.config.set('template.state.options.data.url', url);
             grunt.config.set('template.state.options.data.controller', controller);
             grunt.config.set('template.state.options.data.ui-view', uiView);
 
             if( !grunt.file.exists(targetPath) ){
-                grunt.task.run(['template:state']);
+                grunt.task.run(['template:state', 'sass-directory-imports']);
 
             }else{
                 grunt.log.errorlns('Directory "' + targetPath + '" already exists');
+                grunt.warn('This state already exists');
             }
 
-            /*
-            var lowerCaseName = name.toLowerCase();
-
-            if(lowerCaseName.indexOf("/") != -1){
-                var aName = lowerCaseName.split('/');
-                lowerCaseName = aName[aName.length-1];
-                var targetFilePath = '';
-                var targetstatePath = '';
-
-                for( var index=0; index<(aName.length-1); index++ ){
-                    targetFilePath += aName[index] + '/';
-                    targetstatePath += aName[index] + '.';
-                }
-
-                targetstatePath += lowerCaseName;
-
-                //Get URL path
-                var urlStatePath = targetstatePath.split(".").join("/");
-                grunt.log.errorlns([
-                    urlStatePath
-                ]);
-
-                //Get UI-View name
-                var uiViewName = lowerCaseName;
-
-                targetFilePath = 'app/views/' + targetFilePath + lowerCaseName;
-                var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.slice(1);
-
-
-            }else{
-                var capitalizedName = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.slice(1);
-                var targetFilePath = 'app/views/' + lowerCaseName;
-                var targetstatePath = lowerCaseName;
-                var urlStatePath = lowerCaseName;
-                var uiViewName = 'body';
-            }
-
-            grunt.config.set('template.view.options.data.name', lowerCaseName);
-            grunt.config.set('template.view.options.data.path', targetFilePath);
-            grunt.config.set('template.view.options.data.title', capitalizedName);
-            grunt.config.set('template.controller.options.data.name', lowerCaseName);
-            grunt.config.set('template.controller.options.data.path', targetFilePath);
-            grunt.config.set('template.controller.options.data.state', targetstatePath);
-            grunt.config.set('template.controller.options.data.title', capitalizedName);
-            grunt.config.set('template.controller.options.data.url', urlStatePath);
-            grunt.config.set('template.controller.options.data.uiview', uiViewName);
-            grunt.config.set('template.style.options.data.name', lowerCaseName);
-            grunt.config.set('template.style.options.data.path', targetFilePath);
-
-            if( !grunt.file.exists(targetFilePath) ){
-                grunt.task.run(['template:view', 'template:controller', 'template:style', 'sass-directory-imports']);
-
-            }else{
-                grunt.log.errorlns('Directory "' + targetPath + '" already exists');
-            }
-            */
         }
     });
 
