@@ -62,5 +62,24 @@ grunt test
 grunt
 ```
 
-##Grunt w3UI-Template Helper
-* [state]: ```create-state:myState```
+####Grunt w3UI-Template Helper
+```
+# Create a new state(view, controller, style).
+grunt create-state:myState
+
+# Create a new service.
+grunt create-service:myService
+
+# Create a new factory.
+grunt create-factory:myFactory
+
+# Create a new provider.
+grunt create-provider:myProvider
+
+# Create a new directives.
+grunt create-directives:myDirectives
+
+# Create a new filter.
+grunt create-filter:myFilter
+```
+
