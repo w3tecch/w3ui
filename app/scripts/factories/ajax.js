@@ -30,19 +30,19 @@ angular.module('w3uiFrontendApp')
             var isRequestSuccessSet = false;
             var isRequestErrorSet = false;
             var isRequestDoneSet = false;
-            if (typeof requestSuccess == 'function') {
+            if (typeof requestSuccess === 'function') {
                 isRequestSuccessSet = true;
             }
-            if (typeof requestError == 'function') {
+            if (typeof requestError === 'function') {
                 isRequestErrorSet = true;
             }
-            if (typeof requestDone == 'function') {
+            if (typeof requestDone === 'function') {
                 isRequestDoneSet = true;
             }
 
 
                 //Without request data
-            if (method == 'GET' || method == 'OPTIONS' || method == 'DELETE') {
+            if (method === 'GET' || method === 'OPTIONS' || method === 'DELETE') {
                 $http({
                     method: method,
                     url: url,
@@ -60,16 +60,16 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestDoneSet){
                         try {
-                            requestDone(responseBody.message, responseBody.status, headers);
+                            requestDone(headers);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Done Function Defined');
                         }
                     }
 
-                }).error(function () {
+                }).error(function (responseBody, status, headers) {
                     if(isRequestErrorSet){
                         try {
-                            requestError(responseBody.message, responseBody.status);
+                            requestError(responseBody, status);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Error Function Defined');
                         }
@@ -77,7 +77,7 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestDoneSet){
                         try {
-                            requestDone(responseBody.message, responseBody.status, headers);
+                            requestDone(headers);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Done Function Defined');
                         }
@@ -88,7 +88,7 @@ angular.module('w3uiFrontendApp')
             //With request data
             } else {
                 var data = requestData.data;
-                if (configuration.get('CONTENT_TYPE') == 'application/json') {
+                if (configuration.get('CONTENT_TYPE') === 'application/json') {
                     data = JSON.stringify(data);
                 }
 
@@ -110,17 +110,17 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestDoneSet){
                         try {
-                            requestDone(responseBody.message, responseBody.status, headers);
+                            requestDone(headers);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Done Function Defined');
                         }
                     }
 
 
-                }).error(function () {
+                }).error(function (responseBody, status, headers) {
                     if(isRequestErrorSet){
                         try {
-                            requestError(responseBody.message, responseBody.status);
+                            requestError(responseBody, status);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Error Function Defined');
                         }
@@ -128,7 +128,7 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestDoneSet){
                         try {
-                            requestDone(responseBody.message, responseBody.status, headers);
+                            requestDone(headers);
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Done Function Defined');
                         }

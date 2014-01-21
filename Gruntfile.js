@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/scripts/{,*/}*.js','<%= yeoman.app %>/views/{,*/}*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: true
@@ -54,6 +54,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%= yeoman.app %>/{,*/}*.html',
+                    '<%= yeoman.app %>/views/{,*/}*.html',
                     '.tmp/styles/{,*/}*.css',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
@@ -321,26 +322,6 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>/styles',
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
-            },
-            create_temp_view: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'templates/views/',
-                        src: ['*'],
-                        dest: 'app/views/',
-                        rename: function(dest, src) {
-                            // use the source directory to create the file
-                            // example with your directory structure
-                            //   dest = 'dev/js/'
-                            //   src = 'module1/js/main.js'
-                            grunt.config.get('createTemplateName');
-
-
-                            return src;
-                        }
-                    }
-                ]
             }
         },
 
@@ -547,9 +528,9 @@ module.exports = function (grunt) {
             var targetPath = grunt.config.get('template.factory.options.data.dest'); //'app/scripts/factories/';
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-            if(input.indexOf("/") != -1){
+            if(input.indexOf('/') !== -1){
                 var arrayInput = input.split('/');
-                title = aName[aName.length-1];
+                title = arrayInput[arrayInput.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
             grunt.config.set('template.factory.options.data.title', title);
@@ -570,12 +551,12 @@ module.exports = function (grunt) {
         if (input == null) {
             grunt.warn('Create templates must be specified, like create-directives:Test');
         }else{
-            var targetPath = grunt.config.get('template.directives.options.data.dest'); //'app/scripts/factories/';
+            var targetPath = grunt.config.get('template.directives.options.data.dest');
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-            if(input.indexOf("/") != -1){
+            if(input.indexOf('/') !== -1){
                 var arrayInput = input.split('/');
-                title = aName[aName.length-1];
+                title = arrayInput[arrayInput.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
             grunt.config.set('template.directives.options.data.title', title);
@@ -599,9 +580,9 @@ module.exports = function (grunt) {
             var targetPath = grunt.config.get('template.filter.options.data.dest'); //'app/scripts/factories/';
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-            if(input.indexOf("/") != -1){
+            if(input.indexOf('/') !== -1){
                 var arrayInput = input.split('/');
-                title = aName[aName.length-1];
+                title = arrayInput[arrayInput.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
             grunt.config.set('template.filter.options.data.title', title);
@@ -625,9 +606,9 @@ module.exports = function (grunt) {
             var targetPath = grunt.config.get('template.provider.options.data.dest'); //'app/scripts/factories/';
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-            if(input.indexOf("/") != -1){
+            if(input.indexOf('/') !== -1){
                 var arrayInput = input.split('/');
-                title = aName[aName.length-1];
+                title = arrayInput[arrayInput.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
             grunt.config.set('template.provider.options.data.title', title);
@@ -651,9 +632,9 @@ module.exports = function (grunt) {
             var targetPath = grunt.config.get('template.service.options.data.dest'); //'app/scripts/factories/';
             var name = input;
             var title = name.charAt(0).toUpperCase() + name.slice(1);
-            if(input.indexOf("/") != -1){
+            if(input.indexOf('/') !== -1){
                 var arrayInput = input.split('/');
-                title = aName[aName.length-1];
+                title = arrayInput[arrayInput.length-1];
                 title = title.charAt(0).toUpperCase() + title.slice(1);
             }
             grunt.config.set('template.service.options.data.title', title);
@@ -684,7 +665,7 @@ module.exports = function (grunt) {
             targetPath = targetPath + name;
 
             //Nested state
-            if(name.indexOf("/") != -1){
+            if(name.indexOf('/') !== -1){
                 var aName = name.split('/');
                 name = aName[aName.length-1];
                 controller = name.charAt(0).toUpperCase() + name.slice(1);
@@ -729,7 +710,7 @@ module.exports = function (grunt) {
             ];
 
             srcFiles.forEach(function (filepath) {
-                var includeFile = filepath.replace("app","..");
+                var includeFile = filepath.replace('app','..');
                 newFileContents.push('@import "' + includeFile + '";');
                 grunt.log.oklns('@import "' + includeFile + '";');
 
