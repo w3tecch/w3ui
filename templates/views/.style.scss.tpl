@@ -1,3 +1,3 @@
 /*
-    <%- contorller %> Styles
+    <%- name %> Styles
 */

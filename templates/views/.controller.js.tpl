@@ -8,12 +8,12 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.<%- state %>',{
+        $stateProvider.state('master.<%- state-path %>',{
             access: 'admin',
             url: '<%- url %>',
             views :{
                 '<%- uiview %>': {
-                    controller: '<%- title %>Ctrl',
+                    controller: '<%- controller %>Ctrl',
                     templateUrl: 'views/<%- url %>/<%- name %>.view.html'
                 }
             }
@@ -23,6 +23,6 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('<%- title %>Ctrl', function ($scope, Ajax, Noty, Progressbar) {
+    .controller('<%- controller %>Ctrl', function ($scope, Ajax, Noty, Progressbar) {
 
     });

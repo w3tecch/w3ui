@@ -395,6 +395,21 @@ module.exports = function (grunt) {
 
         // Custom Task for creation files with a template
         'template': {
+            'state':{
+                'options': {
+                    'dest': 'app/views/',
+                    'ui-view': 'body',
+                    'state-path': 'mater.',
+                    'name': '',
+                    'url': '',
+                    'controller': ''
+                },
+                'files': {
+                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.view.html': ['templates/views/.view.html.tpl'],
+                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.controller.js': ['templates/views/.controller.js.tpl'],
+                    '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.style.scss': ['templates/views/.style.scss.tpl']
+                }
+            },
             'factory': {
                 'options': {
                     'data': {
@@ -411,7 +426,6 @@ module.exports = function (grunt) {
             'view': {
                 'options': {
                     'data': {
-                        'dest': 'app/views/',
                         'name': 'temp',
                         'title': 'Temp',
                         'path': 'Temp'
@@ -424,7 +438,6 @@ module.exports = function (grunt) {
             'controller': {
                 'options': {
                     'data': {
-                        'dest': 'app/views/',
                         'name': 'temp',
                         'title': 'Temp',
                         'url': 'Temp',
@@ -440,7 +453,6 @@ module.exports = function (grunt) {
             'style': {
                 'options': {
                     'data': {
-                        'dest': 'app/views/',
                         'name': 'temp',
                         'path': 'Temp'
                     }
@@ -553,11 +565,45 @@ module.exports = function (grunt) {
     });
 
 
-    grunt.registerTask('create-view', 'Create a template', function(name) {
-        if (name == null) {
-            grunt.warn('Create templates must be specified, like create-view:Test');
+    grunt.registerTask('create-state', 'Create a template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-state:Test');
 
         }else{
+            var targetPath = grunt.config.get('template.state.options.data.dest') + input;
+            var name = input;
+            var state = name;
+            var uiView = grunt.config.get('template.state.options.data.ui-view');
+            var url = '/' + name;
+            var controller = name.charAt(0).toUpperCase() + name.slice(1);
+
+            //Nested state
+            if(name.indexOf("/") != -1){
+                var aName = name.split('/');
+                name = aName[aName.length-1];
+                controller = name.charAt(0).toUpperCase() + name.slice(1);
+                state = aName.join('.');
+
+            }
+
+            state = grunt.config.get('template.state.options.data.state-path') + '.' + state;
+
+            //Set options for the task
+            grunt.config.set('template.state.options.data.name', name);
+            grunt.config.set('template.state.options.data.dest', targetPath);
+            grunt.config.set('template.state.options.data.state-path', state);
+            grunt.config.set('template.state.options.data.url', url);
+            grunt.config.set('template.state.options.data.controller', controller);
+            grunt.config.set('template.state.options.data.ui-view', uiView);
+
+            if( !grunt.file.exists(targetPath) ){
+                grunt.task.run(['template:state']);
+
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + '" already exists');
+            }
+
+            /*
             var lowerCaseName = name.toLowerCase();
 
             if(lowerCaseName.indexOf("/") != -1){
@@ -612,6 +658,7 @@ module.exports = function (grunt) {
             }else{
                 grunt.log.errorlns('Directory "' + targetPath + '" already exists');
             }
+            */
         }
     });
 
