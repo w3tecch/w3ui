@@ -16,50 +16,16 @@ gem install compass
 Install `nodeJS`:
 [nodeJS](http://nodejs.org/)
 
-Install `yoeman`:
-```
-npm install -g yo
-```
-
 Install `bower`:
 ```
 npm install -g grunt-cli bower
 ```
 
-
 ## Usage
 
-* [yo](https://github.com/yeoman/yo) - the scaffolding tool from Yeoman
 * [bower](http://bower.io) - the package management tool
 * [grunt](http://gruntjs.com) - the build tool
 
-###Yoeman
-
-Yo is maintained by the Yeoman project and offers web application scaffolding, utilizing scaffolding templates we refer to as generators. You typically install yo and any generators you think you might use via npm.
-
-####AngularJS Generator
-
-Available generators:
-
-* [angular](#app) (aka [angular:app](#app))
-* [angular:controller](#controller)
-* [angular:directive](#directive)
-* [angular:filter](#filter)
-* [angular:route](#route)
-* [angular:service](#service)
-* [angular:provider](#service)
-* [angular:factory](#service)
-* [angular:value](#service)
-* [angular:constant](#service)
-* [angular:decorator] (#decorator)
-* [angular:view](#view)
-
-```
-yo angular:controller myController
-yo angular:directive myDirective
-yo angular:filter myFilter
-yo angular:service myService
-```
 
 ###Bower
 
@@ -95,3 +61,6 @@ grunt test
 # Build an optimized, production-ready version of your app.
 grunt
 ```
+
+##Grunt w3UI-Template Helper
+* [state]: ```create-state:myState```
