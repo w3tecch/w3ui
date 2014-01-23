@@ -20,7 +20,7 @@
 
 body{
   padding: 0px;
-  font-family: Tahoma, Arial, serif;
+  /*font-family: Tahoma, Arial, serif;*/
 }
 
 h1, h2, h3, h4{
@@ -62,8 +62,8 @@ a, a:focus, a:hover, a:active {
 }
 
 body {
-  direction: ltr;
-  font-size: 13px;
+  /*direction: ltr;
+  font-size: 13px;*/
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -361,7 +361,7 @@ ul.main-navigation-menu > li > ul.sub-menu li > a .icon-arrow {
 }
 
 .main-content > .container {
-  min-height: 760px;
+  min-height: 500px;
 }
 
 .main-content .container {
@@ -399,7 +399,7 @@ ul.main-navigation-menu > li > ul.sub-menu li > a .icon-arrow {
 }
 
 .sidebar-search {
-  margin: -3px 0 0 0;
+  margin: -5px 0 0 0;
   padding: 0 30px 0 5px;
   display: inline-block;
   border-radius: 5px;
@@ -419,10 +419,17 @@ ul.main-navigation-menu > li > ul.sub-menu li > a .icon-arrow {
   background: none;
   border: none;
   width: 130px;
+  height: 30px;
+  line-height: 30px;
 }
 
 .sidebar-search .form-group input:focus {
   outline: none;
+}
+
+.glyphicons.table{
+  width: auto !important;
+  margin-bottom: 0px !important;
 }
 
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
@@ -450,6 +457,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .sidebar-search .form-group button i:before {
   font-size: 16px;
   margin-top: -10px;
+  margin-left: -5px;
 }
 
 .page-header {

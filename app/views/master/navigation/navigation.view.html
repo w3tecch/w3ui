@@ -1,7 +1,7 @@
 <div class="main-navigation navbar-collapse collapse">
     <div class="navigation-toggler">
-        <i class="navigation-toggler-close glyphicons chevron-left"></i>
-        <i class="navigation-toggler-open glyphicons chevron-right"></i>
+        <i class="navigation-toggler-close glyphicons chevron-left" data-ng-click="onToggleNavigation()"></i>
+        <i class="navigation-toggler-open glyphicons chevron-right" data-ng-click="onToggleNavigation()"></i>
     </div>
 
     <!--div class="navigation-toggler navigation-toggler-open">
@@ -9,13 +9,13 @@
     </div-->
     <ul class="main-navigation-menu">
         <li class="active">
-            <a><i class="glyphicons imac"></i>
-                <span class="title"> Dashboard </span>
+            <a ui-sref="master.home"><i class="glyphicons imac"></i>
+                <span class="title">Home</span>
             </a>
         </li>
         <li>
-            <a><i class="glyphicons dog"></i>
-                <span class="title"> Bikeplan </span>
+            <a ui-sref="master.table"><i class="glyphicons table"></i>
+                <span class="title">Table</span>
             </a>
         </li>
 

@@ -8,9 +8,7 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        //access: access.anon,
-
-        $stateProvider.state('login', {
+        $stateProvider.state('authLogin', {
             access: 'public',
             url: '/login',
             views: {
@@ -20,12 +18,12 @@ angular.module('w3uiFrontendApp')
                 },
                 'main': {
                     controller: 'LoginCtrl',
-                    templateUrl: 'views/login/login.view.html'
+                    templateUrl: 'views/auth/login/login.view.html'
                 }
             }
         });
-
     })
+
 
 /**
  * And of course we define a controller for our route.
@@ -60,9 +58,5 @@ angular.module('w3uiFrontendApp')
 
                 }
             );
-
-
         };
-
-
     });

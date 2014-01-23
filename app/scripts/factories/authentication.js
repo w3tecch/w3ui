@@ -34,6 +34,11 @@ angular.module('w3uiFrontendApp')
                 }
                 return loggedIn;
             },
+            logout: function(){
+                loggedIn = false;
+                store.user = false;
+                store.token = false;
+            },
             login: function (formUser, success, error) {
                 $cookieStore.put('APP_ENVIRONMENT', configuration.set('APP_ENVIRONMENT', formUser.server));
 

@@ -26,6 +26,7 @@ angular.module('w3uiFrontendApp')
     .controller('TableCtrl', function ($scope, Noty) {
         $scope.modalID = 'modalTable';
 
+
         $scope.myData = [
             {name: 'Moroni', age: 50},
             {name: 'Tiancum', age: 43},
@@ -33,6 +34,7 @@ angular.module('w3uiFrontendApp')
             {name: 'Nephi', age: 29},
             {name: 'Enos', age: 34}
         ];
+
 
         $scope.gridOptions = {
             data: 'myData',
@@ -93,8 +95,6 @@ angular.module('w3uiFrontendApp')
             var index = $scope.myData.indexOf(row.entity);
             $scope.gridOptions.selectItem(index, false);
             $scope.myData.splice(index, 1);
-
-
 
         };
 

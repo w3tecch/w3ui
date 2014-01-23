@@ -42,7 +42,10 @@ angular.module('w3uiFrontendApp', [
  * Run Application
   */
 .run(['$rootScope', '$state', 'Authentication',
-    function ($rootScope,  $state, Authentication) {
+    function ($rootScope, $state, Authentication) {
+
+        $rootScope.appName = 'UI Template';
+
         $rootScope.$on('$stateChangeStart', function(event, next) {
             //Check if state is open for public
             if( next.access !== 'public' ){
@@ -50,13 +53,13 @@ angular.module('w3uiFrontendApp', [
                 //Check if somebody is logged in
                 if(!Authentication.isLoggedIn()){
                     event.preventDefault();
-                    $state.go('login');
+                    $state.go('authLogin');
 
                 }else{
                     var user = Authentication.get('user');
                     if( user.role !== next.access ){
                         event.preventDefault();
-                        $state.go('login');
+                        $state.go('authLogin');
                     }
                 }
             }

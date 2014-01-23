@@ -1,3 +1,5 @@
+
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -31,6 +33,10 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.form-signin button{
+  margin-top: 30px;
 }
 
 .animated {
@@ -102,6 +108,7 @@
   -o-animation-name: shake;
   animation-name: shake;
 }
+
 .loginForm {
   margin-top: 40px;
 }
@@ -143,32 +150,4 @@
   margin-top: 60px;
   padding: 0px 0px 20px 0px;
 
-}
-.account-wall form{
-  background-color: #ffffff;
-  -moz-box-shadow:    0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow:         0px 2px 2px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-}
-
-.login-title {
-  color: #555;
-  font-size: 18px;
-  font-weight: 400;
-  display: block;
-}
-.profile-img {
-  height: 100px;
-  margin: 0 auto 10px;
-  display: block;
-}
-.need-help {
-  margin-top: 10px;
-}
-.new-account {
-  display: block;
-  margin-top: 10px;
 }

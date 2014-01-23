@@ -37,7 +37,8 @@ p
 ul.main-navigation-menu > li.active a,
 ul.main-navigation-menu > li.active a i:before,
 ul.main-navigation-menu > li.active > a:hover, ul.main-navigation-menu > li.active:hover > a,
-ul.dropdown-menu > li:hover > a i:before
+ul.dropdown-menu > li:hover > a i:before,
+ul.dropdown-menu > li > a:hover
 {
   color: #ffffff;
 }
