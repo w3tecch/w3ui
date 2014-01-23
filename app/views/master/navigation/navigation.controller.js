@@ -5,8 +5,39 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('NavigationCtrl', function () {
+    .controller('NavigationCtrl', function ($scope, Authentication) {
 
+        $scope.list = [
+            {
+                'title': 'Home',
+                'icon': 'imac',
+                'children': [
+                    {
+                        'title': 'Home 1',
+                        'state': 'master.home'
+                    },
+                    {
+                        'title': 'Home 2',
+                        'state': 'master.home'
+                    }
+                ]
+            },
+            {
+                'title': 'Tabelle',
+                'state': 'master.table',
+                'icon': 'table'
+            },
+            {
+                'title': 'Sektionen',
+                'state': 'master.rest',
+                'icon': 'leaf'
+            }
+        ];
+
+
+
+        setTimeout(function(){
+        //Toggle Events
         var $mainContainer = $('.main-container');
         $('.navigation-toggler').on('click', function () {
 
@@ -74,4 +105,6 @@ angular.module('w3uiFrontendApp')
                 }
             }
         });
+        },300);
+
     });

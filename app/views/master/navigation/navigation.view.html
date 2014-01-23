@@ -5,19 +5,26 @@
     </div>
 
     <!--div class="navigation-toggler navigation-toggler-open">
-        <i class="glyphicons chevron-right"></i>
+        <i class="glyphicons chevron-right"></i>  class="active"
     </div-->
     <ul class="main-navigation-menu">
-        <li class="active">
-            <a ui-sref="master.home"><i class="glyphicons imac"></i>
-                <span class="title">Home</span>
+
+        <li ng-repeat="item in list">
+            <a ui-sref="{{ item.state }}">
+                <i class="glyphicons {{ item.icon }}"></i>
+                <span class="title">{{ item.title }}</span>
+                <span class="selected"></span>
             </a>
+            <ul class="sub-menu">
+                <li ng-repeat="child in item.children">
+                    <a ui-sref="{{ child.state }}">
+                        <span class="title"> {{ child.title }} </span>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li>
-            <a ui-sref="master.table"><i class="glyphicons table"></i>
-                <span class="title">Table</span>
-            </a>
-        </li>
+
+
 
         <li>
             <a>
