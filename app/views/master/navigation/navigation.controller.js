@@ -5,41 +5,139 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('NavigationCtrl', function ($scope, Authentication) {
+    .controller('NavigationCtrl', function ($scope, $rootScope, $state) {
 
-        $scope.list = [
-            {
-                'title': 'Home',
-                'icon': 'imac',
-                'children': [
-                    {
-                        'title': 'Home 1',
-                        'state': 'master.home'
-                    },
-                    {
-                        'title': 'Home 2',
-                        'state': 'master.home'
+        /**
+         * Defines the first view in the body part
+         *
+         * @type {string}
+         */
+        var startState = 'master.home';
+
+        /**
+         * Navigation list
+         *
+         * @type {*[]}
+         */
+        $scope.list = [];
+        var array = $state.get();
+        for(var index in array) {
+            try{
+                if( array[index].data.isNavi ){
+                    array[index].data.state = array[index].name;
+                    array[index].data.children = [];
+                    array[index].data.class = '';
+                    if( startState == array[index].data.state ){
+                        array[index].data.class = 'active';
                     }
-                ]
-            },
-            {
-                'title': 'Tabelle',
-                'state': 'master.table',
-                'icon': 'table'
-            },
-            {
-                'title': 'Sektionen',
-                'state': 'master.rest',
-                'icon': 'leaf'
+                    $scope.list.push(array[index].data);
+                }
+            }catch(error){}
+        }
+
+        /**
+         * Return a navigation item
+         *
+         * @param statePath
+         * @returns {*}
+         */
+        function get(statePath){
+            var array = $scope.list;
+
+            if( statePath === undefined ){
+                return array;
             }
-        ];
 
+            for(var index in array) {
+                try{
+                    if( array[index].state == statePath ){
+                        return array[index];
+                    }
+                }catch(error){}
+            }
+            return false;
+        }
 
+        /**
+         * Resets the active tag at all navigation items
+         */
+        function resetActiveTag(){
+            var array = $scope.list;
+            for(var index in array) {
+                try{
+                    array[index].class = '';
+                }catch(error){}
+            }
+        }
 
-        setTimeout(function(){
-        //Toggle Events
-        var $mainContainer = $('.main-container');
-        $('.navigation-toggler').on('click', function () {
+        /**
+         * When the states are changing the active tag will be reset and set
+         */
+        $rootScope.$on('$stateChangeStart', function(event, next) {
+            try{
+                resetActiveTag();
+                get(next.name).class = 'active';
+            }catch(error){}
+        });
+
+        /**
+         * Opens the subnavigation items
+         *
+         * @param item
+         * @param self
+         */
+        $scope.onClickNavigationItem = function(item, self){
+            var $mainContainer = $('.main-container');
+            var $navigationItem = $('#main-navigation-item-'+self.$id);
+
+            //if has children
+            if(item.children.length > 0){
+                var dblHeight = parseFloat($('ul.sub-menu').children().height()) * parseFloat($navigationItem.find('ul.sub-menu').children().length);
+                var dblWidth = 220;
+
+                //when dash is active
+                if ($mainContainer.hasClass('dash-active')) {
+                    //close selected one
+                    if ($navigationItem.hasClass('open')) {
+                        $navigationItem.find('ul.sub-menu').width(0).delay(300).queue(function () {
+                            $navigationItem.dequeue();
+                            $navigationItem.parent().removeClass('open');
+                        });
+
+                    } else {
+                        //remove old one
+                        $mainContainer.find('.main-navigation-menu > li.open').removeClass('open').find('ul.sub-menu').width(0);
+
+                        //open new one
+                        $navigationItem.addClass('open').find('ul.sub-menu').width(dblWidth);
+                    }
+
+                }else{
+                    //close selected one
+                    if ($navigationItem.hasClass('open')) {
+                        $navigationItem.removeClass('open').find('ul.sub-menu').height(0);
+
+                    } else {
+                        //remove old one
+                        $mainContainer.find('.main-navigation-menu > li.open').removeClass('open').find('ul.sub-menu').height(0);
+
+                        //open new one
+                        $navigationItem.addClass('open').find('ul.sub-menu').height(dblHeight);
+                    }
+                }
+
+            }else{
+                $mainContainer.find('.main-navigation-menu > li.open').removeClass('open').find('ul.sub-menu').height(0);
+            }
+        };
+
+        /**
+         * On toggle the navigation. this changes the look of the navigation
+         *
+         * @param self
+         */
+        $scope.onToggleNavigation = function(self){
+            var $mainContainer = $('.main-container');
 
             //go to dash inactive
             if ($mainContainer.hasClass('dash-active')) {
@@ -60,51 +158,7 @@ angular.module('w3uiFrontendApp')
                     $(window).trigger('resize');
                 },300);
             }
-        });
 
-
-        $mainContainer.find('.main-navigation-menu > li:has(ul.sub-menu)').on('click', function () {
-
-            var dblHeight = parseFloat($('ul.sub-menu').children().height()) * parseFloat($(this).find('ul.sub-menu').children().length);
-            var dblWidth = 220;
-
-            //when dash is active
-            if ($mainContainer.hasClass('dash-active')) {
-
-                //close selected one
-                if ($(this).hasClass('open')) {
-                    $(this).find('ul.sub-menu').width(0).delay(300).queue(function () {
-                        $(this).dequeue();
-                        $(this).parent().removeClass('open');
-                    });
-
-                } else {
-                    //remove old one
-                    $mainContainer.find('.main-navigation-menu > li.open').removeClass('open').find('ul.sub-menu').width(0);
-
-                    //open new one
-                    $(this).addClass('open').find('ul.sub-menu').width(dblWidth);
-                }
-
-
-            //when dash is inactive
-            } else {
-
-                //close selected one
-                if ($(this).hasClass('open')) {
-                    $(this).removeClass('open').find('ul.sub-menu').height(0);
-
-
-                } else {
-                    //remove old one
-                    $mainContainer.find('.main-navigation-menu > li.open').removeClass('open').find('ul.sub-menu').height(0);
-
-                    //open new one
-                    $(this).addClass('open').find('ul.sub-menu').height(dblHeight);
-
-                }
-            }
-        });
-        },300);
+        };
 
     });

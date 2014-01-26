@@ -11,6 +11,11 @@ angular.module('w3uiFrontendApp')
 
         $stateProvider.state('master.home',{
             access: 'admin',
+            data: {
+                isNavi: true,
+                title: 'HomeBubu',
+                icon: 'imac'
+            },
             url: 'home',
             views :{
                 'body': {

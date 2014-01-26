@@ -11,6 +11,11 @@ angular.module('w3uiFrontendApp')
         $stateProvider.state('master.rest',{
             access: 'admin',
             url: 'rest',
+            data: {
+                isNavi: true,
+                title: 'Sektionen',
+                icon: 'leaf'
+            },
             views :{
                 'body': {
                     controller: 'RestCtrl',

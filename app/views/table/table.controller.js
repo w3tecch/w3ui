@@ -11,6 +11,11 @@ angular.module('w3uiFrontendApp')
         $stateProvider.state('master.table',{
             access: 'admin',
             url: 'table',
+            data: {
+                isNavi: true,
+                title: 'Tabelle',
+                icon: 'table'
+            },
             views :{
                 'body': {
                     controller: 'TableCtrl',

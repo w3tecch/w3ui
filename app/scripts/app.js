@@ -47,6 +47,7 @@ angular.module('w3uiFrontendApp', [
         $rootScope.appName = 'UI Template';
 
         $rootScope.$on('$stateChangeStart', function(event, next) {
+
             //Check if state is open for public
             if( next.access !== 'public' ){
 
