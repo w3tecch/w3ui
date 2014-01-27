@@ -8,18 +8,20 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.rest',{
+        $stateProvider.state('master.sections.list',{
             access: 'admin',
-            url: 'rest',
+            url: '',
             data: {
-                isNavi: true,
+                isNavi: false,
                 title: 'Sektionen',
-                icon: 'leaf'
+                subtitle: 'Alle',
+                icon: 'leaf',
+                parent: 'master.sections'
             },
             views :{
-                'body': {
-                    controller: 'RestCtrl',
-                    templateUrl: 'views/rest/rest.view.html'
+                'content': {
+                    controller: 'SectionsListCtrl',
+                    templateUrl: 'views/sections/list/list.view.html'
                 }
             }
         });
@@ -28,10 +30,10 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('RestCtrl', function ($scope, Ajax, Noty, Progressbar) {
+    .controller('SectionsListCtrl', function ($scope, $state, Ajax, Noty, Progressbar) {
+
         Progressbar.show(1, 'Lade Sections Daten');
         $scope.modalID = 'modalRest';
-
 
         /**
          * Grid Options
@@ -80,15 +82,18 @@ angular.module('w3uiFrontendApp')
          * Open Add Modal
          */
         $scope.openAddModel = function () {
-            $scope.modalTitle = 'Erstellen';
-            $scope.modalMode = 'POST';
-            $scope.modalType = 'Add';
-            $scope.modalInputName = '';
-            $scope.modalInputID = '';
-            $scope.showInputID = false;
-            $scope.modalButtonType = 'success';
-            $scope.modalButtonText = 'Speichern';
-            $scope.modalEntity = {};
+            $state.go('master.sections.create');
+            /*
+             $scope.modalTitle = 'Erstellen';
+             $scope.modalMode = 'POST';
+             $scope.modalType = 'Add';
+             $scope.modalInputName = '';
+             $scope.modalInputID = '';
+             $scope.showInputID = false;
+             $scope.modalButtonType = 'success';
+             $scope.modalButtonText = 'Speichern';
+             $scope.modalEntity = {};
+             */
         };
 
         /**
@@ -202,7 +207,6 @@ angular.module('w3uiFrontendApp')
 
         /**
          * Delete row
-         * TODO: all
          *
          * @param data
          */

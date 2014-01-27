@@ -5,7 +5,8 @@ angular.module('w3uiFrontendApp', [
     'ngResource',
     'ngSanitize',
     'ui.router',
-    'ngGrid'
+    'ngGrid',
+    'textAngular'
 ])
 
 /**

@@ -5,6 +5,22 @@
   padding: 0.2em 0;
 }
 
+
+
+.ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+  margin-bottom: 20px;
+}
+
+.ta-toolbar{
+  margin-bottom: 20px;
+}
+
+
 @media (min-width: 992px){
   .container {
     width: 100%;
@@ -288,7 +304,6 @@ ul.main-navigation-menu > li > a {
 }
 
 ul.main-navigation-menu > li > a i {
-  font-size: 16px;
   text-shadow: none;
   padding-left: 32px;
 }
@@ -300,8 +315,19 @@ ul.main-navigation-menu > li:open{
 
 
 ul.main-navigation-menu > li > a i:before{
-  font-size: 20px;
-  margin-top: -12px;
+  font-size: 24px;
+  line-height: 0;
+  position: absolute;
+  left: 0.5em;
+  top: 1em;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  font-style: normal;
+  font-weight: normal;
+  vertical-align: middle;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+
 
 }
 

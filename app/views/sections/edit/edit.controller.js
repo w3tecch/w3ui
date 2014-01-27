@@ -8,32 +8,29 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-
-        $stateProvider.state('master.home',{
+        $stateProvider.state('master.sectionsCreate',{
             access: 'admin',
-            url: 'home',
+            url: '/sections/create',
             data: {
-                isNavi: true,
-                title: 'HomeBubu',
-                icon: 'home'
+                isNavi: false,
+                title: 'Sektionen',
+                subtitle: 'Erstellen',
+                icon: 'leaf'
             },
             views :{
-                'body': {
-                    controller: 'HomeCtrl',
-                    templateUrl: 'views/home/home.view.html'
+                '': {
+                    controller: 'SectionsCreateCtrl',
+                    templateUrl: 'views/sections/create/create.view.html'
                 }
             }
         });
-
     })
 
 /**
  * And of course we define a controller for our route.
  */
-    .controller('HomeCtrl', function ($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('SectionsCreateCtrl', function ($scope, Ajax, Noty, Progressbar) {
+
+
+
     });

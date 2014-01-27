@@ -22,7 +22,7 @@ angular.module('w3uiFrontendApp')
         $rootScope.$on('$stateChangeStart', function(event, next) {
             $scope.breadcrumbTitle = next.data.title;
             $scope.breadcrumbIcon = next.data.icon;
-            $scope.breadcrumbSubTitle = '';
+            $scope.breadcrumbSubTitle = next.data.subtitle;
         });
 
 

@@ -11,6 +11,12 @@ angular.module('w3uiFrontendApp')
         $stateProvider.state('<%- state %>',{
             access: 'admin',
             url: '<%- url %>',
+            data: {
+                isNavi: true,
+                title: '<%- controller %>',
+                subtitle: '',
+                icon: 'leaf'
+            },
             views :{
                 '<%- uiview %>': {
                     controller: '<%- controller %>Ctrl',

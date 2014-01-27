@@ -19,9 +19,18 @@ angular.module('w3uiFrontendApp')
         function run(requestData, requestSuccess, requestError, requestDone) {
             var url = $.trim(backendUrl + requestData.url);
             var method = $.trim(requestData.method);
+
+            if( !('contentType' in requestData) ){
+                requestData.contentType = configuration.get('CONTENT_TYPE');
+            }
+
+            if( !('accept' in requestData) ){
+                requestData.accept = configuration.get('CONTENT_TYPE');
+            }
+
             var headers = {
-                'Accept': configuration.get('CONTENT_TYPE'),
-                'Content-Type': configuration.get('CONTENT_TYPE'),
+                'Accept': $.trim(requestData.accept),
+                'Content-Type': $.trim(requestData.contentType),
                 'Authorization': Authentication.get('token')
             };
 

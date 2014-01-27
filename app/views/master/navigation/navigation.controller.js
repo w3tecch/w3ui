@@ -24,7 +24,11 @@ angular.module('w3uiFrontendApp')
         for(var index in array) {
             try{
                 if( array[index].data.isNavi ){
-                    array[index].data.state = array[index].name;
+
+                    if( !array[index].data.state ){
+                        array[index].data.state = array[index].name;
+                    }
+
                     array[index].data.children = [];
                     array[index].data.class = '';
                     if( startState == array[index].data.state ){
@@ -76,7 +80,13 @@ angular.module('w3uiFrontendApp')
         $rootScope.$on('$stateChangeStart', function(event, next) {
             try{
                 resetActiveTag();
-                get(next.name).class = 'active';
+
+                if( next.data.parent !== undefined ){
+                    get(next.data.parent).class = 'active';
+                }else{
+                    get(next.name).class = 'active';
+                }
+
             }catch(error){}
         });
 
