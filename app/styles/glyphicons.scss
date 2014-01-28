@@ -2894,7 +2894,17 @@
 
 
 /* Custome */
+button.btn > i.glyphicons:before{
+  font-size: 18px;
+  top: -11px;
+}
+
+button.btn > i.glyphicons{
+  padding-left: 25px;
+}
+
 button.btn-lg > i.glyphicons:before{
+  font-size: 24px;
   top: -13px;
 }
 

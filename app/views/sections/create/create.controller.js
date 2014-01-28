@@ -30,7 +30,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCreateCtrl', function ($scope, Progressbar, Noty, Ajax) {
+    .controller('SectionsCreateCtrl', function ($scope, $state, Progressbar, Noty, Ajax) {
 
         $scope.orightml = '';
 
@@ -68,12 +68,13 @@ angular.module('w3uiFrontendApp')
             Progressbar.next('Test wird gespeichert');
 
             Ajax.put({
-                    url: 'section/'+data.id+'/content',
+                    url: 'section/' + data.id + '/content',
                     contentType: 'text/html',
                     data: $scope.htmlcontent
                 },
                 function (data, message, status) {
                     console.log('Success', data, message, status);
+                    $state.go('master.sections');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
 

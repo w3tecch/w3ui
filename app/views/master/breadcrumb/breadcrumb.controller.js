@@ -17,12 +17,22 @@ angular.module('w3uiFrontendApp')
         $scope.breadcrumbSubTitle = '';
 
         /**
+         * Search value watch
+         */
+        $scope.$watch('searchValue', function() {
+            $rootScope.searchValue = this.last;
+        }); // initialize the watch
+
+
+        /**
          * Updates the breadcrumb when state is going to change
          */
         $rootScope.$on('$stateChangeStart', function(event, next) {
             $scope.breadcrumbTitle = next.data.title;
             $scope.breadcrumbIcon = next.data.icon;
             $scope.breadcrumbSubTitle = next.data.subtitle;
+
+            $rootScope.bubu = '';
         });
 
 

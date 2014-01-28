@@ -30,27 +30,52 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsListCtrl', function ($scope, $state, Ajax, Noty, Progressbar) {
-
+    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, Ajax, Noty, Progressbar) {
+        console.log('SectionsListCtrl'),
         Progressbar.show(1, 'Lade Sections Daten');
-        $scope.modalID = 'modalRest';
+        $scope.modalID = 'modalDelete';
+
+        /**
+         * Filter watch
+         */
+        $rootScope.$watch('searchValue', function() {
+            $scope.gridOptions.filterOptions.filterText = this.last;
+        }, true);
 
         /**
          * Grid Options
          */
         $scope.gridOptions = {
             data: 'myData',
-            rowHeight: 30,
+            headerRowHeight: 40,
+            rowHeight: 38,
             enableRowSelection: false,
             enableCellSelection: false,
+            filterOptions: {
+                filterText: '',
+                useExternalFilter: false
+            },
             columnDefs: [
                 {field: 'id', displayName: 'ID'},
                 {field: 'name', displayName: 'Name'},
-                {field:'', width: '100px', cellTemplate: '<button data-toggle="modal" data-target="#{{ modalID }}" ng-click="openEditModel(row)" type="button" class="btn btn-primary btn-sm btn-block">' +
-                    '<i class="glyphicons white pencil"></i>Bearbeiten</button>'
-                },
-                {field:'', width: '100px', cellTemplate: '<button data-toggle="modal" data-target="#{{ modalID }}" ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm btn-block">' +
-                    '<i class="glyphicons white circle_remove"></i>Löschen</button>'
+                {field: 'updated_at', displayName: 'Bearbeitet von'},
+                {field: 'updated_by_name', displayName: 'Bearbeitet am'},
+                {
+                    field: '',
+                    displayName: 'Aktion',
+                    width: '100px',
+                    cellTemplate: '<div class="btn-toolbar" role="toolbar">' +
+                        '<div class="btn-group btn-group-sm grid-buttons">' +
+                        '<button ng-click="openEditModel(row)" type="button" class="btn btn-primary btn-sm">' +
+                        '<i class="glyphicons pencil"></i>' +
+                        '</button>' +
+                        '</div>' +
+                        '<div class="btn-group btn-group-sm grid-buttons">' +
+                        '<button ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ modalID }}">' +
+                        '<i class="glyphicons circle_remove"></i>' +
+                        '</button>' +
+                        '</div>' +
+                        '</div>'
                 }
             ]
         };
@@ -79,21 +104,10 @@ angular.module('w3uiFrontendApp')
 
 
         /**
-         * Open Add Modal
+         * Go to create state
          */
-        $scope.openAddModel = function () {
+        $scope.create = function () {
             $state.go('master.sections.create');
-            /*
-             $scope.modalTitle = 'Erstellen';
-             $scope.modalMode = 'POST';
-             $scope.modalType = 'Add';
-             $scope.modalInputName = '';
-             $scope.modalInputID = '';
-             $scope.showInputID = false;
-             $scope.modalButtonType = 'success';
-             $scope.modalButtonText = 'Speichern';
-             $scope.modalEntity = {};
-             */
         };
 
         /**
@@ -102,15 +116,7 @@ angular.module('w3uiFrontendApp')
          * @param row
          */
         $scope.openEditModel = function (row){
-            $scope.modalTitle = row.entity.name + ' bearbeiten';
-            $scope.modalMode = 'POST';
-            $scope.modalType = 'Update';
-            $scope.modalInputName = row.entity.name;
-            $scope.modalInputID = row.entity.id;
-            $scope.showInputID = true;
-            $scope.modalButtonType = 'success';
-            $scope.modalButtonText = 'Speichern';
-            $scope.modalEntity = row.entity;
+            $state.go('master.sections.edit', {'sectionId': row.entity.id});
         };
 
         /**
@@ -119,21 +125,18 @@ angular.module('w3uiFrontendApp')
          * @param row
          */
         $scope.openDeleteModel = function (row){
-            $scope.modalTitle = row.entity.name + ' löschen';
-            $scope.modalMode = 'DELETE';
-            $scope.modalType = 'Delete';
-            $scope.modalInputName = row.entity.name;
+            $scope.modalTitle = '"' + row.entity.name + '"' + ' löschen';
             $scope.modalInputID = row.entity.id;
-            $scope.showInputID = true;
-            $scope.modalButtonType = 'danger';
+            $scope.modalInputName = row.entity.name;
             $scope.modalButtonText = 'Löschen';
             $scope.modalEntity = row.entity;
+            $scope.modalType = 'Delete';
         };
 
         /**
          * Save Modal
          */
-        $scope.saveModal = function () {
+        $scope.submitModal = function () {
             $('#'+$scope.modalID).modal('hide');
             Progressbar.show(3, 'Daten überprüfen');
 
@@ -142,34 +145,14 @@ angular.module('w3uiFrontendApp')
                 name: $scope.modalInputName
             };
 
-            switch($scope.modalType){
-                case 'Add':
-                    $scope.addRow(data);
-                    break;
-                case 'Update':
-                    $scope.updateRow(data);
-                    break;
-                case 'Delete':
-                    $scope.deleteRow(data);
-                    break;
-            }
-        };
-
-        /**
-         * Add row to database
-         *
-         * @param row
-         */
-        $scope.addRow = function(row){
-            Progressbar.next('Speichere neues Element');
-            Ajax.post({
-                    url: 'section',
-                    data: row
+            Progressbar.next('Lösche Element');
+            Ajax.delete({
+                    url: 'section/' + data.id
                 },
                 function (data, message, status) {
                     Progressbar.next('Daten werden synchronisiert');
-                    $scope.myData.push(data);
-                    Noty.success('Daten wurden gespeichert');
+                    $scope.loadData();
+                    Noty.success('Daten wurden gelöscht');
                 },
                 function (err) {
                     Noty.error('Fehler beim Speichern der Daten');
@@ -179,6 +162,8 @@ angular.module('w3uiFrontendApp')
                 }
             );
         };
+
+
 
         /**
          * Update row
@@ -205,29 +190,7 @@ angular.module('w3uiFrontendApp')
             );
         };
 
-        /**
-         * Delete row
-         *
-         * @param data
-         */
-        $scope.deleteRow = function(row){
-            Progressbar.next('Lösche Element');
-            Ajax.delete({
-                    url: 'section/' + row.id
-                },
-                function (data, message, status) {
-                    Progressbar.next('Daten werden synchronisiert');
-                    $scope.loadData();
-                    Noty.success('Daten wurden gelöscht');
-                },
-                function (err) {
-                    Noty.error('Fehler beim Speichern der Daten');
-                },
-                function () {
-                    Progressbar.hide();
-                }
-            );
-        };
+
 
 
     });

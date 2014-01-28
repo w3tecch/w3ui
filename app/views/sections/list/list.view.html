@@ -13,10 +13,8 @@
                     Erstellen
                 </button-->
 
-                <button ng-click="openAddModel()" type="button" class="btn btn-primary btn-sm pull-right">
-                    <i class="glyphicons white plus"></i>
-                    Erstellen
-                </button>
+                <button ng-click="create()" type="button" class="btn btn-primary">
+                    <i class="glyphicons white plus"></i> Erstellen</button>
             </li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -39,28 +37,23 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">
                     {{ modalTitle }}
-                    <span class="label label-default">{{ modalMode }}</span>
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" name="restForm">
-                    <div class="form-group" data-ng-show="showInputID">
-                        <label for="inputID" class="col-sm-2 control-label">ID</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputID" data-ng-model="modalInputID" placeholder="ID" disabled>
-                        </div>
-                    </div>
+                    <p>Sind Sie sicher, dass Sie dieses Element löschen möchten</p>
+                    <br/>
                     <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputName" data-ng-model="modalInputName" placeholder="Name" required autofocus>
+                            <input type="text" class="form-control" id="inputName" data-ng-model="modalInputName" placeholder="Name" disabled>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-{{ modalButtonType }}" ng-click="saveModal()" data-ng-disabled="restForm.$invalid">{{ modalButtonText }}</button>
+                <button type="button" class="btn btn-danger" ng-click="submitModal()" data-ng-disabled="restForm.$invalid">{{ modalButtonText }}</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

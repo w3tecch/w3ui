@@ -97,9 +97,11 @@ angular.module('w3uiFrontendApp')
             //With request data
             } else {
                 var data = requestData.data;
-                if (configuration.get('CONTENT_TYPE') === 'application/json') {
+                if (requestData.contentType === 'application/json') {
                     data = JSON.stringify(data);
                 }
+
+
 
                 $http({
                     method: method,

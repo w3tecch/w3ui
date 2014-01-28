@@ -5,8 +5,6 @@
   padding: 0.2em 0;
 }
 
-
-
 .ta-editor {
   min-height: 300px;
   height: auto;
@@ -33,17 +31,6 @@
   }
 }
 
-
-body{
-  padding: 0px;
-  /*font-family: Tahoma, Arial, serif;*/
-}
-
-h1, h2, h3, h4{
-  font-family: Ubuntu-L, Tahoma, Arial, serif;
-}
-
-
 h1{
   font-size: 32px;
 }
@@ -56,18 +43,15 @@ h3{
   font-size: 24px;
 }
 
-h1, h2,h3,h4{
-  font-family: Ubuntu-R, Tahoma, Arial, serif;
-}
 
-.page-header h1{
-  font-size: 36px;
+h1{
   font-family: Ubuntu-L, Tahoma, Arial, serif;
 }
 
-.panel-title{
+h2, h3, .navbar-brand span{
   font-family: Ubuntu-R, Tahoma, Arial, serif;
 }
+
 
 a:hover, a:focus {
   text-decoration: underline;
@@ -283,7 +267,6 @@ ul.main-navigation-menu > li > a {
   border: none;
   display: block;
   font-size: 14px;
-  font-family: Ubuntu-R;
   margin: 0;
   padding: 8px 10px;
   position: relative;
@@ -296,7 +279,6 @@ ul.main-navigation-menu > li.open > a:hover, ul.main-navigation-menu > li.open:h
 }
 
 ul.sub-menu > li > a {
-  font-family: Ubuntu-L;
 }
 
 ul.main-navigation-menu > li > a {
@@ -311,8 +293,6 @@ ul.main-navigation-menu > li > a i {
 ul.main-navigation-menu > li:open{
   border-left: 2px solid transparent;
 }
-
-
 
 ul.main-navigation-menu > li > a i:before{
   font-size: 24px;
@@ -484,6 +464,10 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
   font-size: 16px;
   margin-top: -10px;
   margin-left: -5px;
+}
+
+.body{
+  padding-bottom: 20px;
 }
 
 .page-header {
@@ -772,6 +756,7 @@ button.btn-sm > i.glyphicons{
     padding-top: 120px;
   }
 }
+
 
 
 
