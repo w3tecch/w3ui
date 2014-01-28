@@ -61,7 +61,12 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestSuccessSet){
                         try {
-                            requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                            if( headers()['content-type'] == 'application/json' ){
+                                requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                            }else{
+                                requestSuccess(responseBody);
+                            }
+
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Success Function Defined');
                         }
@@ -76,19 +81,25 @@ angular.module('w3uiFrontendApp')
                     }
 
                 }).error(function (responseBody, status, headers) {
-                    if(isRequestErrorSet){
-                        try {
-                            requestError(responseBody, status);
-                        } catch (e) {
-                            console.error('#ERROR - AJAX Factory: No Error Function Defined');
-                        }
-                    }
 
-                    if(isRequestDoneSet){
-                        try {
-                            requestDone(headers);
-                        } catch (e) {
-                            console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                    if( status == 401 ){
+                        Authentication
+
+                    }else{
+                        if(isRequestErrorSet){
+                            try {
+                                requestError(responseBody, status);
+                            } catch (e) {
+                                console.error('#ERROR - AJAX Factory: No Error Function Defined');
+                            }
+                        }
+
+                        if(isRequestDoneSet){
+                            try {
+                                requestDone(headers);
+                            } catch (e) {
+                                console.error('#ERROR - AJAX Factory: No Done Function Defined');
+                            }
                         }
                     }
                 });
@@ -113,7 +124,11 @@ angular.module('w3uiFrontendApp')
 
                     if(isRequestSuccessSet){
                         try {
-                            requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                            if( headers()['content-type'] == 'application/json' ){
+                                requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                            }else{
+                                requestSuccess(responseBody);
+                            }
                         } catch (e) {
                             console.error('#ERROR - AJAX Factory: No Success Function Defined');
                         }

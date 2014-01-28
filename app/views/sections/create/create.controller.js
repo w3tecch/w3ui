@@ -83,9 +83,6 @@ angular.module('w3uiFrontendApp')
                     Noty.error('Fehler beim Speichern der Daten');
                 }
             );
-
-
-
         };
 
 
