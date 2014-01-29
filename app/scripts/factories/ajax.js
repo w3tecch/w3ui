@@ -84,7 +84,6 @@ angular.module('w3uiFrontendApp')
 
                     if( status == 401 ){
                         Authentication
-
                     }else{
                         if(isRequestErrorSet){
                             try {
