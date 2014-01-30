@@ -9,7 +9,7 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
         $stateProvider.state('master.sections.create',{
-            access: 'admin',
+            access: 'authorized',
             url: '/create',
             data: {
                 isNavi: false,
@@ -21,7 +21,7 @@ angular.module('w3uiFrontendApp')
             views :{
                 'content': {
                     controller: 'SectionsCreateCtrl',
-                    templateUrl: 'views/sections/create/create.view.html'
+                    templateUrl: 'views/sections/form.view.html'
                 }
             }
         });
@@ -30,7 +30,8 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCreateCtrl', function ($scope, $state, Progressbar, Noty, Ajax) {
+    .controller('SectionsCreateCtrl', function ($scope, $rootScope, $state, Progressbar, Noty, Ajax) {
+        $rootScope.searchBarVisible = false;
 
         $scope.orightml = '';
 

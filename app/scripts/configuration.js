@@ -38,20 +38,21 @@
          * You have a max of 31 before the bit shift pushes the accompanying integer out of
          * the memory footprint for an integer a
          */
-        AUTH_ROLES: [
+        /*AUTH_ROLES: [
             'public',
             'administrator'
         ],
+        */
 
         /*
          Build out all the access levels you want referencing the roles listed above
          You can use the '*' symbol to represent access to all roles
          */
         AUTH_ROLES_ACCESSLEVELS: {
-            'public': '*',
-            'anon': ['public'],
-            'authorized': ['administrator'],
-            'admin': ['administrator']
+            'public': ['*'],
+            'authorized': ['ADMIN', 'WRITER'],
+            'admin': ['ADMIN'],
+            'user-admin': ['ADMIN', 'USER-ADMIN']
         }
     };
 

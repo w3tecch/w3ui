@@ -9,7 +9,7 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
         $stateProvider.state('master.table',{
-            access: 'admin',
+            access: 'authorized',
             url: 'table',
             data: {
                 isNavi: true,
@@ -28,7 +28,8 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('TableCtrl', function ($scope, Noty) {
+    .controller('TableCtrl', function ($scope, $rootScope, Noty) {
+        $rootScope.searchBarVisible = false;
         $scope.modalID = 'modalTable';
 
 

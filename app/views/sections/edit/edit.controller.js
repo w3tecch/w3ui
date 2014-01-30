@@ -9,7 +9,7 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
         $stateProvider.state('master.sections.edit',{
-            access: 'admin',
+            access: 'authorized',
             url: '/edit/{sectionId}',
             data: {
                 isNavi: false,
@@ -21,7 +21,7 @@ angular.module('w3uiFrontendApp')
             views :{
                 'content': {
                     controller: 'SectionsEditCtrl',
-                    templateUrl: 'views/sections/create/create.view.html'
+                    templateUrl: 'views/sections/form.view.html'
                 }
             }
         });
@@ -30,7 +30,8 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsEditCtrl', function ($scope, $state, $stateParams, Ajax, Noty, Progressbar) {
+    .controller('SectionsEditCtrl', function ($scope, $rootScope, $state, $stateParams, Ajax, Noty, Progressbar) {
+        $rootScope.searchBarVisible = false;
 
         console.log($stateParams);
         Progressbar.show(2, 'Lade Sections Daten');

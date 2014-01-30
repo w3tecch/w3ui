@@ -9,7 +9,7 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
         $stateProvider.state('master.sections.list',{
-            access: 'admin',
+            access: 'authorized',
             url: '',
             data: {
                 isNavi: false,
@@ -30,10 +30,13 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, Ajax, Noty, Progressbar) {
+    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, Authentication, Ajax, Noty, Progressbar) {
         console.log('SectionsListCtrl'),
         Progressbar.show(1, 'Lade Sections Daten');
         $scope.modalID = 'modalDelete';
+        $scope.admin = Authentication.is('admin');
+        $rootScope.searchBarVisible = true;
+
 
         /**
          * Filter watch
@@ -70,7 +73,7 @@ angular.module('w3uiFrontendApp')
                         '<i class="glyphicons pencil"></i>' +
                         '</button>' +
                         '</div>' +
-                        '<div class="btn-group btn-group-sm grid-buttons">' +
+                        '<div class="btn-group btn-group-sm grid-buttons" data-ng-show="admin">' +
                         '<button ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ modalID }}">' +
                         '<i class="glyphicons circle_remove"></i>' +
                         '</button>' +

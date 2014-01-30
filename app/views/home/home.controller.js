@@ -10,11 +10,11 @@ angular.module('w3uiFrontendApp')
     .config(function config($stateProvider) {
 
         $stateProvider.state('master.home',{
-            access: 'admin',
+            access: 'authorized',
             url: 'home',
             data: {
                 isNavi: true,
-                title: 'HomeBubu',
+                title: 'Home',
                 icon: 'home'
             },
             views :{
@@ -30,10 +30,26 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('HomeCtrl', function ($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('HomeCtrl', function ($scope, $rootScope, $resource, $http, Authentication) {
+        $rootScope.searchBarVisible = false;
+
+
+        /**
+         * Rest API Test and Example
+         */
+        Authentication.setHttpHeaders();
+        var Users = $resource(configuration.generateBackendURLHelper() + 'user/:id');
+
+        var User = Users.get({id:2}, function(response, getResponseHeaders) {
+            Authentication.set('token', getResponseHeaders('Authorization'));
+
+            User.fname = 'Mooorise';
+
+            User.$save({id:2});
+
+        });
+
+
+
+
     });

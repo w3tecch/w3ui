@@ -9,7 +9,7 @@ angular.module('w3uiFrontendApp')
  */
     .config(function config($stateProvider) {
         $stateProvider.state('<%- state %>',{
-            access: 'admin',
+            access: 'authorized',
             url: '<%- url %>',
             data: {
                 isNavi: true,

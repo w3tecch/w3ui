@@ -12,7 +12,7 @@ angular.module('w3uiFrontendApp', [
 /**
  * Config Application
   */
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $urlRouterProvider.otherwise('/home');
 
@@ -37,15 +37,29 @@ angular.module('w3uiFrontendApp', [
             }
         }
     });
+
+
+    $httpProvider.defaults.transformResponse.push(function (data, headerGetter) {
+        try{
+        var Authorization = headerGetter('Authorization');
+
+        if(Authorization.indexOf("Bearer") != -1){
+            console.log("transform Response", Authorization);
+            configuration.set('API_AUTH_TOKEN', Authorization);
+        }
+        }catch(error){}
+        return data;
+    });
 })
 
 /**
  * Run Application
   */
-.run(['$rootScope', '$state', 'Authentication',
-    function ($rootScope, $state, Authentication) {
+.run(['$rootScope', '$state', 'Authentication', 'Noty',
+    function ($rootScope, $state, Authentication, Noty) {
 
         $rootScope.appName = 'UI Template';
+        $rootScope.searchBarVisible = false;
 
         $rootScope.$on('$stateChangeStart', function(event, next) {
 
@@ -58,11 +72,12 @@ angular.module('w3uiFrontendApp', [
                     $state.go('authLogin');
 
                 }else{
-                    var user = Authentication.get('user');
-                    if( user.role !== next.access ){
+                    if( !Authentication.is(next.access) ){
                         event.preventDefault();
-                        $state.go('authLogin');
+                        Noty.warning('Sie haben keine Berechtigung für diese Ansicht');
+
                     }
+
                 }
             }
         });

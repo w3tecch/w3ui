@@ -28,7 +28,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('LoginCtrl', function ($scope, $location, Authentication, Noty, Progressbar) {
+    .controller('LoginCtrl', function ($scope, $state, $location, Authentication, Noty, Progressbar) {
         $scope.server = configuration.get('APP_ENVIRONMENT');
 
         $scope.username = 'gery.hirschfeld@w3tec.ch';
@@ -48,7 +48,8 @@ angular.module('w3uiFrontendApp')
                     } else {
                         event.returnValue = false;
                     }
-                    $location.path('/home');
+                    $state.go('master.home');
+
                     Progressbar.hide();
 
                     Noty.show( message, status );
