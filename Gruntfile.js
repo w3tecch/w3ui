@@ -406,6 +406,18 @@ module.exports = function (grunt) {
                     '<%= template.factory.options.data.dest %><%= template.factory.options.data.name %>.js': ['templates/scripts/factory.js.tpl']
                 }
             },
+            'model': {
+                'options': {
+                    'data':{
+                        'dest': 'app/scripts/models/',
+                        'name': '',
+                        'url': ''
+                    }
+                },
+                'files': {
+                    '<%= template.model.options.data.dest %><%= template.model.options.data.name %>.model.js': ['templates/scripts/model.js.tpl']
+                }
+            },
             'filter': {
                 'options': {
                     'data':{
@@ -564,6 +576,33 @@ module.exports = function (grunt) {
             grunt.config.set('template.directives.options.data.path', name);
             if( !grunt.file.exists(targetPath + name) ){
                 grunt.task.run(['template:directives']);
+            }else{
+                grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
+            }
+        }
+    });
+
+    /**
+     * Create-Model from a template
+     */
+    grunt.registerTask('create-model', 'Create a model template', function(input) {
+        if (input == null) {
+            grunt.warn('Create templates must be specified, like create-model:Test');
+        }else{
+            var targetPath = grunt.config.get('template.model.options.data.dest'); //'app/scripts/factories/';
+            var name = input;
+            var title = name.charAt(0).toUpperCase() + name.slice(1);
+
+            if(input.indexOf('/') !== -1){
+                var arrayInput = input.split('/');
+                title = arrayInput[arrayInput.length-1];
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+
+            grunt.config.set('template.model.options.data.name', title);
+            grunt.config.set('template.model.options.data.url', name.toLowerCase());
+            if( !grunt.file.exists(targetPath + name) ){
+                grunt.task.run(['template:model']);
             }else{
                 grunt.log.errorlns('Directory "' + targetPath + name + '" already exists');
             }

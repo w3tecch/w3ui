@@ -30,7 +30,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, $resource, Sections, Authentication, Ajax, Noty, Progressbar) {
+    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, $resource, Sections, Users, Authentication, Ajax, Noty, Progressbar) {
         $scope.modalID = 'modalDelete';
         $scope.admin = Authentication.is('admin');
         $rootScope.searchBarVisible = true;
@@ -61,8 +61,8 @@ angular.module('w3uiFrontendApp')
             columnDefs: [
                 {field: 'id', displayName: 'ID'},
                 {field: 'name', displayName: 'Name'},
-                {field: 'updated_at', displayName: 'Bearbeitet von'},
-                {field: 'updated_by_name', displayName: 'Bearbeitet am'},
+                {field: 'updated_at', displayName: 'Bearbeitet am'},
+                {field: 'updated_by_name', displayName: 'Bearbeitet von'},
                 {
                     field: '',
                     displayName: 'Aktion',
@@ -93,8 +93,19 @@ angular.module('w3uiFrontendApp')
             Authentication.setHttpHeaders();
             $scope.myData = Sections.query();
             $scope.myData.$promise.then(function (result) {
-                $scope.myData = result;
-                Progressbar.hide();
+
+                Authentication.setHttpHeaders();
+                var oUsers = Users.query();
+                oUsers.$promise.then(function (list) {
+
+                    for( var i = 0; i < result.length; i++ ){
+                        var user = _.where(list, {id: result[i].updated_by});
+                        result[i]['updated_by_name'] = user[0].fname + ' ' + user[0].lastname;
+                    }
+
+                    $scope.myData = result;
+                    Progressbar.hide();
+                });
             });
         };
         $scope.getSections();
