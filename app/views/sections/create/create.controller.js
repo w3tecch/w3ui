@@ -30,14 +30,59 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCreateCtrl', function ($scope, $rootScope, $state, Progressbar, Noty, Ajax) {
+    .controller('SectionsCreateCtrl', function ($scope, $rootScope, Sections, Authentication, $state, Progressbar, Noty, Ajax) {
         $rootScope.searchBarVisible = false;
 
-        $scope.orightml = '';
 
-        $scope.title = '';
-        $scope.htmlcontent = $scope.orightml;
-        $scope.disabled = false;
+        $scope.Section = {
+            name: ''
+        };
+        $scope.htmlcontent = '';
+
+        /**
+         * Save new section
+         */
+        $scope.save = function(){
+            Progressbar.show(2, 'Speichere neue Sektion');
+            Authentication.setHttpHeaders('application/json', 'application/json');
+
+            var data = JSON.stringify({
+                name: $scope.Section.name
+            });
+
+            $scope.Section = Sections.save(data, function(responseData){
+                $scope.updateContent(responseData.id);
+            });
+        };
+
+        /**
+         * Updating the content of the section
+         *
+         * @param id
+         */
+        $scope.updateContent = function (id) {
+            Progressbar.next('Speichere Text...');
+            Ajax.put({
+                    url: 'section/' + id + '/content',
+                    contentType: 'text/html',
+                    data: $scope.htmlcontent
+                },
+                function () {
+                    $state.go('master.sections');
+                    Progressbar.hide();
+                    Noty.success('Neues Element wurde erfolgreich erstellt');
+                },
+                function () {
+                    Noty.error('Fehler beim Speichern der Daten');
+                }
+            );
+
+        };
+
+
+
+
+        /*
 
         $scope.save = function(){
             console.log($scope.htmlcontent);
@@ -85,6 +130,7 @@ angular.module('w3uiFrontendApp')
                 }
             );
         };
+        */
 
 
     });

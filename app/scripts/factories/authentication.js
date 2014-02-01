@@ -15,6 +15,10 @@ angular.module('w3uiFrontendApp')
         return {
             get: function (key) {
                 try {
+                    if(key == 'token'){
+                        return configuration.get('API_AUTH_TOKEN');
+                    }
+
                     return store[key];
                 } catch (e) {
                     return false;
@@ -101,22 +105,22 @@ angular.module('w3uiFrontendApp')
                     }
                 }).success(function (data, status, headers) {
                     var newUserObj = {};
-                    newUserObj.id = data.user.id;
-                    newUserObj.fname = data.user.fname;
-                    newUserObj.lastname = data.user.lastname;
-                    newUserObj.email = data.user.email;
+                    newUserObj.id = data.id;
+                    newUserObj.fname = data.fname;
+                    newUserObj.lastname = data.lastname;
+                    newUserObj.email = data.email;
                     newUserObj.username = newUserObj.fname + ' ' + newUserObj.lastname;
-                    newUserObj.roles = data.user.roles;
+                    newUserObj.roles = data.roles;
 
                     store.user = newUserObj;
                     store.token = headers().authorization;
 
-                    $cookieStore.put('W3_TOKEN', Base64.encode(store.token));
+                    //$cookieStore.put('W3_TOKEN', Base64.encode(store.token));
                     $cookieStore.put('W3_USER', Base64.encode(JSON.stringify(store.user)));
 
                     loggedIn = true;
 
-                    success(store.user, data.message, data.status);
+                    success(store.user);
 
                 }).error(error);
             }

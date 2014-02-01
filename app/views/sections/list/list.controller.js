@@ -30,12 +30,12 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, Authentication, Ajax, Noty, Progressbar) {
-        console.log('SectionsListCtrl'),
-        Progressbar.show(1, 'Lade Sections Daten');
+    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, $resource, Sections, Authentication, Ajax, Noty, Progressbar) {
         $scope.modalID = 'modalDelete';
         $scope.admin = Authentication.is('admin');
         $rootScope.searchBarVisible = true;
+
+        $scope.modalEntity = {};
 
 
         /**
@@ -69,7 +69,7 @@ angular.module('w3uiFrontendApp')
                     width: '100px',
                     cellTemplate: '<div class="btn-toolbar" role="toolbar">' +
                         '<div class="btn-group btn-group-sm grid-buttons">' +
-                        '<button ng-click="openEditModel(row)" type="button" class="btn btn-primary btn-sm">' +
+                        '<button ng-click="edit(row)" type="button" class="btn btn-primary btn-sm">' +
                         '<i class="glyphicons pencil"></i>' +
                         '</button>' +
                         '</div>' +
@@ -86,24 +86,20 @@ angular.module('w3uiFrontendApp')
         /**
          * Get Data
          */
-        $scope.loadData = function(){
-            Ajax.get({
-                    url: 'section'
-                },
-                function (data, message, status) {
-                    $scope.myData = data;
-                    Noty.info('Daten wurden erfolgreich geladen');
-                    Progressbar.hide();
+        $scope.getSections = function(){
+            Progressbar.show(1, 'Lade Sections Daten');
+            $scope.modalEntity = {};
 
-                },
-                function (err) {
-                    Noty.error('Fehler beim Laden der Daten');
-                    Progressbar.hide();
-
-                }
-            );
+            Authentication.setHttpHeaders();
+            $scope.myData = Sections.query();
+            $scope.myData.$promise.then(function (result) {
+                $scope.myData = result;
+                Progressbar.hide();
+            });
         };
-        $scope.loadData();
+        $scope.getSections();
+
+
 
 
         /**
@@ -118,7 +114,7 @@ angular.module('w3uiFrontendApp')
          *
          * @param row
          */
-        $scope.openEditModel = function (row){
+        $scope.edit = function (row){
             $state.go('master.sections.edit', {'sectionId': row.entity.id});
         };
 
@@ -128,12 +124,9 @@ angular.module('w3uiFrontendApp')
          * @param row
          */
         $scope.openDeleteModel = function (row){
-            $scope.modalTitle = '"' + row.entity.name + '"' + ' löschen';
-            $scope.modalInputID = row.entity.id;
-            $scope.modalInputName = row.entity.name;
-            $scope.modalButtonText = 'Löschen';
             $scope.modalEntity = row.entity;
-            $scope.modalType = 'Delete';
+            $scope.modalTitle = '"' + $scope.modalEntity.name + '"' + ' löschen';
+            $scope.modalButtonText = 'Löschen';
         };
 
         /**
@@ -141,59 +134,13 @@ angular.module('w3uiFrontendApp')
          */
         $scope.submitModal = function () {
             $('#'+$scope.modalID).modal('hide');
-            Progressbar.show(3, 'Daten überprüfen');
+            Progressbar.show(1, 'Daten überprüfen');
 
-            var data = {
-                id: $scope.modalInputID,
-                name: $scope.modalInputName
-            };
-
-            Progressbar.next('Lösche Element');
-            Ajax.delete({
-                    url: 'section/' + data.id
-                },
-                function (data, message, status) {
-                    Progressbar.next('Daten werden synchronisiert');
-                    $scope.loadData();
-                    Noty.success('Daten wurden gelöscht');
-                },
-                function (err) {
-                    Noty.error('Fehler beim Speichern der Daten');
-                },
-                function () {
-                    Progressbar.hide();
-                }
-            );
+            Authentication.setHttpHeaders();
+            $scope.modalEntity.$delete({Id: $scope.modalEntity.id}, function(result){
+                $scope.myData = _.without($scope.myData, _.findWhere($scope.myData, {id: $scope.modalEntity.id}));
+                Progressbar.hide();
+            });
         };
-
-
-
-        /**
-         * Update row
-         *
-         * @param data
-         */
-        $scope.updateRow = function(row){
-            Progressbar.next('Speichere geändertes Element');
-            Ajax.post({
-                    url: 'section/' + row.id,
-                    data: row
-                },
-                function (data, message, status) {
-                    Progressbar.next('Sync Data');
-                    $scope.loadData();
-                    Noty.success('Daten wurden gespeichert');
-                },
-                function (err) {
-                    Noty.error('Fehler beim Speichern der Daten');
-                },
-                function () {
-                    Progressbar.hide();
-                }
-            );
-        };
-
-
-
 
     });

@@ -52,7 +52,7 @@ angular.module('w3uiFrontendApp')
 
                     Progressbar.hide();
 
-                    Noty.show( message, status );
+                    Noty.success( 'Erflogriech Angemeldet' );
                 },
                 function (err) {
                     Progressbar.hide();

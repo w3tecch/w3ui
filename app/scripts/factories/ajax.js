@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('w3uiFrontendApp')
-    .factory('Ajax', function ($http, Authentication) {
+    .factory('Ajax', function ($http, $state, Authentication) {
 
         /**
          * Global variables
          */
         var backendUrl = configuration.generateBackendURLHelper();
-        console.log('Ajax Core', Authentication.get('token'));
 
         /**
          * Run Http Request
@@ -62,7 +61,7 @@ angular.module('w3uiFrontendApp')
                     if(isRequestSuccessSet){
                         try {
                             if( headers()['content-type'] == 'application/json' ){
-                                requestSuccess(responseBody.data, responseBody.message, responseBody.status);
+                                requestSuccess(responseBody);
                             }else{
                                 requestSuccess(responseBody);
                             }
@@ -83,7 +82,7 @@ angular.module('w3uiFrontendApp')
                 }).error(function (responseBody, status, headers) {
 
                     if( status == 401 ){
-
+                        /*$state.go('authLogin');*/
                     }else{
                         if(isRequestErrorSet){
                             try {

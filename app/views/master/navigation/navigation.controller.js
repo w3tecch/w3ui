@@ -82,6 +82,7 @@ angular.module('w3uiFrontendApp')
                 resetActiveTag();
 
                 if( next.data.parent !== undefined ){
+                    console.log('resetActiveTag', next.data.parent);
                     get(next.data.parent).class = 'active';
                 }else{
                     get(next.name).class = 'active';

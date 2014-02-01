@@ -8,7 +8,7 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.sections.edit',{
+        $stateProvider.state('master.sections.edit', {
             access: 'authorized',
             url: '/edit/{sectionId}',
             data: {
@@ -18,7 +18,7 @@ angular.module('w3uiFrontendApp')
                 icon: 'pencil',
                 parent: 'master.sections'
             },
-            views :{
+            views: {
                 'content': {
                     controller: 'SectionsEditCtrl',
                     templateUrl: 'views/sections/form.view.html'
@@ -30,109 +30,85 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsEditCtrl', function ($scope, $rootScope, $state, $stateParams, Ajax, Noty, Progressbar) {
+    .controller('SectionsEditCtrl', function ($scope, $rootScope, $state, $stateParams, Sections, Authentication, Ajax, Noty, Progressbar) {
         $rootScope.searchBarVisible = false;
 
         console.log($stateParams);
         Progressbar.show(2, 'Lade Sections Daten');
 
+
         /**
-         * Get Data
+         * Get section
          *
          * @param id
          */
-        $scope.loadData = function(id){
-            Ajax.get({
-                    url: 'section/' + id
-                },
-                function (data, message, status) {
-                    $scope.title = data.name;
-                    $scope.loadContent(id);
-
-                },
-                function (err) {
-                    Noty.error('Fehler beim Laden der Daten');
-                    Progressbar.hide();
-
-                }
-            );
+        $scope.getSection = function (id) {
+            Authentication.setHttpHeaders();
+            $scope.Section = Sections.get({Id: id}, function () {
+                $scope.getContent(id);
+            });
         };
-        $scope.loadData($stateParams.sectionId);
-
 
         /**
-         * Get Content
+         * Get HTML content
          *
          * @param id
          */
-        $scope.loadContent = function(id){
+        $scope.getContent = function (id) {
             Progressbar.next('Lade Content');
-            Ajax.get({
-                    url: 'section/' + id + '/content',
-                    accept: 'text/html'
-                },
-                function (data, message, status) {
-                    $scope.htmlcontent = data;
-                    Progressbar.hide();
-
-                },
-                function (err) {
-                    Noty.error('Fehler beim Laden der Daten');
-                    Progressbar.hide();
-
-                }
-            );
+            Authentication.setHttpHeaders('text/html', 'text/html');
+            $scope.Content = Sections.getContent({Id: id}, function (response) {
+                $scope.htmlcontent = response.html;
+                Progressbar.hide();
+            });
         };
 
+        /**
+         * Init Process
+         */
+        $scope.getSection($stateParams.sectionId);
 
         /**
          * Saves the changes
          */
-        $scope.save = function(){
-            console.log($scope.htmlcontent);
+        $scope.save = function () {
+            //Validation
             Progressbar.show(3, 'Daten werden überprüft...');
 
-
+            //Updating section
             Progressbar.next('Speichere neues Element..');
-            Ajax.post({
-                    url: 'section/' + $stateParams.sectionId,
-                    data: {
-                        name: $scope.title
-                    }
-                },
-                function (data, message, status) {
-                    console.log('status', status);
-                    $scope.addContent(data);
+            Authentication.setHttpHeaders();
+            $scope.Section.$save({Id: $stateParams.sectionId}, function () {
+                $scope.updateContent($stateParams.sectionId);
+            });
 
-                },
-                function (err) {
-                    Noty.error('Fehler beim Speichern der Daten');
-                }
-            );
         };
 
-
-        $scope.addContent = function(data){
-            console.log('addContent', data.id);
-            Progressbar.next('Test wird gespeichert');
-
+        /**
+         * Updating the content of the section
+         *
+         * @param id
+         */
+        $scope.updateContent = function (id) {
+            Progressbar.next('Speichere Text...');
             Ajax.put({
-                    url: 'section/' + data.id + '/content',
+                    url: 'section/' + id + '/content',
                     contentType: 'text/html',
                     data: $scope.htmlcontent
                 },
-                function (data, message, status) {
-                    console.log('Success', data, message, status);
+                function () {
                     $state.go('master.sections');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
-
                 },
-                function (err) {
+                function () {
                     Noty.error('Fehler beim Speichern der Daten');
                 }
             );
+
         };
+
+
 
 
     });

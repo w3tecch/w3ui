@@ -41,12 +41,11 @@ angular.module('w3uiFrontendApp', [
 
     $httpProvider.defaults.transformResponse.push(function (data, headerGetter) {
         try{
-        var Authorization = headerGetter('Authorization');
-
-        if(Authorization.indexOf("Bearer") != -1){
-            console.log("transform Response", Authorization);
-            configuration.set('API_AUTH_TOKEN', Authorization);
-        }
+            var Authorization = headerGetter('Authorization');
+            if(Authorization.indexOf("Bearer") != -1){
+                console.log('API_AUTH_TOKEN', Authorization);
+                configuration.set('API_AUTH_TOKEN', Authorization);
+            }
         }catch(error){}
         return data;
     });

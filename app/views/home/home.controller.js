@@ -30,13 +30,14 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('HomeCtrl', function ($scope, $rootScope, $resource, $http, Authentication) {
+    .controller('HomeCtrl', function ($scope, $rootScope) {
         $rootScope.searchBarVisible = false;
 
 
         /**
          * Rest API Test and Example
          */
+        /*
         Authentication.setHttpHeaders();
         var Users = $resource(configuration.generateBackendURLHelper() + 'user/:id');
 
@@ -48,6 +49,7 @@ angular.module('w3uiFrontendApp')
             User.$save({id:2});
 
         });
+        */
 
 
 

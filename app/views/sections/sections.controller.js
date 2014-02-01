@@ -33,13 +33,10 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCtrl', function ($scope, $rootScope, $state) {
+    .controller('SectionsCtrl', function ($scope, $rootScope) {
         $scope.subtitle = '';
         $rootScope.$on('$stateChangeStart', function(event, next) {
             $scope.subtitle = next.data.subtitle;
         });
-
-        //$state.go('master.sections.list');
-
 
     });
