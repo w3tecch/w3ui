@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
     .provider('<%= name %>', function() {
         // In the provider function, you cannot inject any
         // service or factory. This can only be done at the

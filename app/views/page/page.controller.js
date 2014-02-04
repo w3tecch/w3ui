@@ -8,19 +8,19 @@ angular.module('w3ui')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('<%- state %>',{
+        $stateProvider.state('master.page',{
             access: 'authorized',
-            url: '<%- url %>',
+            url: 'page',
             data: {
                 isNavi: true,
-                title: '<%- controller %>',
+                title: 'Seiten',
                 subtitle: '',
-                icon: 'leaf'
+                icon: 'file'
             },
             views :{
-                '<%- uiview %>': {
-                    controller: '<%- controller %>Ctrl',
-                    templateUrl: 'views<%- url %>/<%- name %>.view.html'
+                '': {
+                    controller: 'PagerCtrl',
+                    templateUrl: 'views/page/page.view.html'
                 }
             }
         });
@@ -29,6 +29,6 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('<%- controller %>Ctrl', function ($scope, Ajax, Noty, Progressbar) {
+    .controller('PagerCtrl', function ($scope, Ajax, Noty, Progressbar) {
 
     });

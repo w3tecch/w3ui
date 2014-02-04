@@ -3,7 +3,7 @@
 describe('Controller: LoginCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('w3uiFrontendApp'));
+  beforeEach(module('w3ui'));
 
   var LoginCtrl,
     scope;

@@ -3,7 +3,7 @@
 describe('Service: Ajax', function () {
 
   // load the service's module
-  beforeEach(module('w3uiFrontendApp'));
+  beforeEach(module('w3ui'));
 
   // instantiate service
   var Ajax;

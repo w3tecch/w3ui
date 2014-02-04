@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
     .filter('<%= name %>', function() {
         return function(input) {
             try {

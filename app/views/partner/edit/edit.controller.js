@@ -3,25 +3,25 @@
 angular.module('w3ui')
 
 /**
- * Each section or module of the site can also have its own routes. AngularJS
+ * Each partner or module of the site can also have its own routes. AngularJS
  * will handle ensuring they are all available at run-time, but splitting it
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.section.edit', {
+        $stateProvider.state('master.partner.edit', {
             access: 'authorized',
-            url: '/edit/{sectionId}',
+            url: '/edit/{partnerId}',
             data: {
                 isNavi: false,
                 title: 'Sektionen',
                 subtitle: 'Bearbeiten',
                 icon: 'pencil',
-                parent: 'master.section'
+                parent: 'master.partner'
             },
             views: {
                 'content': {
-                    controller: 'SectionEditCtrl',
-                    templateUrl: 'views/section/form.view.html'
+                    controller: 'PartnerEditCtrl',
+                    templateUrl: 'views/partner/form.view.html'
                 }
             }
         });
@@ -30,21 +30,23 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionEditCtrl', function ($scope, $rootScope, $state, $stateParams, Sections, Authentication, Ajax, Noty, Progressbar) {
+    .controller('PartnerEditCtrl', function ($scope, $rootScope, $state, $stateParams, Partners, Authentication, Ajax, Noty, Progressbar) {
         $rootScope.searchBarVisible = false;
 
         console.log($stateParams);
-        Progressbar.show(2, 'Lade Sections Daten');
+        Progressbar.show(2, 'Lade Partner Daten');
 
+
+        
 
         /**
-         * Get section
+         * Get Data
          *
          * @param id
          */
-        $scope.getSection = function (id) {
+        $scope.getData = function (id) {
             Authentication.setHttpHeaders();
-            $scope.Section = Sections.get({Id: id}, function () {
+            $scope.Partner = Partners.get({Id: id}, function () {
                 $scope.getContent(id);
             });
         };
@@ -57,7 +59,7 @@ angular.module('w3ui')
         $scope.getContent = function (id) {
             Progressbar.next('Lade Content');
             Authentication.setHttpHeaders('text/html', 'text/html');
-            $scope.Content = Sections.getContent({Id: id}, function (response) {
+            $scope.Content = Partners.getContent({Id: id}, function (response) {
                 $scope.htmlcontent = response.html;
                 Progressbar.hide();
             });
@@ -66,7 +68,7 @@ angular.module('w3ui')
         /**
          * Init Process
          */
-        $scope.getSection($stateParams.sectionId);
+        $scope.getData($stateParams.partnerId);
 
         /**
          * Saves the changes
@@ -75,29 +77,29 @@ angular.module('w3ui')
             //Validation
             Progressbar.show(3, 'Daten werden überprüft...');
 
-            //Updating section
+            //Updating
             Progressbar.next('Speichere neues Element..');
             Authentication.setHttpHeaders();
-            $scope.Section.$save({Id: $stateParams.sectionId}, function () {
-                $scope.updateContent($stateParams.sectionId);
+            $scope.Partner.$save({Id: $stateParams.partnerId}, function () {
+                $scope.updateContent($stateParams.partnerId);
             });
 
         };
 
         /**
-         * Updating the content of the section
+         * Updating the content
          *
          * @param id
          */
         $scope.updateContent = function (id) {
             Progressbar.next('Speichere Text...');
             Ajax.put({
-                    url: 'section/' + id + '/content',
+                    url: 'partner/' + id + '/content',
                     contentType: 'text/html',
                     data: $scope.htmlcontent
                 },
                 function () {
-                    $state.go('master.section');
+                    $state.go('master.partner');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
                 },
