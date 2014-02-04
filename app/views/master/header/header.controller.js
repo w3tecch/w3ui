@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
 
 /**
  * And of course we define a controller for our route.

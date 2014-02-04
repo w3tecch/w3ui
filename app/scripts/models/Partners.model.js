@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('w3ui')
-    .factory('Sections', function ($resource, $http) {
+angular.module('w3uiFrontendApp')
+    .factory('Partners', function ($resource, $http) {
         return $resource(
-            configuration.generateBackendURLHelper() + 'section/:Id',
+            configuration.generateBackendURLHelper() + 'partner/:Id',
             {Id: '@Id' },
             {
                 'getContent': {
                     method: 'GET',
-                    url: configuration.generateBackendURLHelper() + 'section/:Id/content',
+                    url: configuration.generateBackendURLHelper() + 'partner/:Id/content',
                     responseType: 'text',
                     isArray: false,
                     transformResponse: [function(responseData) {

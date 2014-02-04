@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
 
 /**
  * Each section or module of the site can also have its own routes. AngularJS
@@ -8,9 +8,9 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.sections',{
+        $stateProvider.state('master.section',{
             access: 'authorized',
-            url: 'sections',
+            url: 'section',
             data: {
                 isNavi: true,
                 title: 'Sektionen',
@@ -19,12 +19,12 @@ angular.module('w3uiFrontendApp')
             },
             views :{
                 'body': {
-                    controller: 'SectionsCtrl',
-                    templateUrl: 'views/sections/sections.view.html'
+                    controller: 'SectionCtrl',
+                    templateUrl: 'views/section/section.view.html'
                 },
-                'content@master.sections': {
-                    controller: 'SectionsListCtrl',
-                    templateUrl: 'views/sections/list/list.view.html'
+                'content@master.section': {
+                    controller: 'SectionListCtrl',
+                    templateUrl: 'views/section/list/list.view.html'
                 }
             }
         });
@@ -33,7 +33,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCtrl', function ($scope, $rootScope) {
+    .controller('SectionCtrl', function ($scope, $rootScope) {
         $scope.subtitle = '';
         $rootScope.$on('$stateChangeStart', function(event, next) {
             $scope.subtitle = next.data.subtitle;

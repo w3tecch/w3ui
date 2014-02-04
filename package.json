@@ -1,6 +1,6 @@
 {
-  "name": "w3uifrontend",
-  "description": "Frontend Template",
+  "name": "w3Pages",
+  "description": "CMS",
   "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {

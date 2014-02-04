@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
 
 /**
  * Each section or module of the site can also have its own routes. AngularJS
@@ -8,7 +8,7 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.sections.create',{
+        $stateProvider.state('master.section.create',{
             access: 'authorized',
             url: '/create',
             data: {
@@ -16,12 +16,12 @@ angular.module('w3uiFrontendApp')
                 title: 'Sektionen',
                 subtitle: 'Erstellen',
                 icon: 'plus',
-                parent: 'master.sections'
+                parent: 'master.section'
             },
             views :{
                 'content': {
-                    controller: 'SectionsCreateCtrl',
-                    templateUrl: 'views/sections/form.view.html'
+                    controller: 'SectionCreateCtrl',
+                    templateUrl: 'views/section/form.view.html'
                 }
             }
         });
@@ -30,7 +30,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsCreateCtrl', function ($scope, $rootScope, Sections, Authentication, $state, Progressbar, Noty, Ajax) {
+    .controller('SectionCreateCtrl', function ($scope, $rootScope, Sections, Authentication, $state, Progressbar, Noty, Ajax) {
         $rootScope.searchBarVisible = false;
 
 
@@ -68,7 +68,7 @@ angular.module('w3uiFrontendApp')
                     data: $scope.htmlcontent
                 },
                 function () {
-                    $state.go('master.sections');
+                    $state.go('master.section');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
                 },

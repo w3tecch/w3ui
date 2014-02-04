@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
 
 /**
  * Each section or module of the site can also have its own routes. AngularJS
@@ -8,7 +8,7 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.sections.list',{
+        $stateProvider.state('master.section.list',{
             access: 'authorized',
             url: '',
             data: {
@@ -16,12 +16,12 @@ angular.module('w3uiFrontendApp')
                 title: 'Sektionen',
                 subtitle: 'Alle',
                 icon: 'leaf',
-                parent: 'master.sections'
+                parent: 'master.section'
             },
             views :{
                 'content': {
-                    controller: 'SectionsListCtrl',
-                    templateUrl: 'views/sections/list/list.view.html'
+                    controller: 'SectionListCtrl',
+                    templateUrl: 'views/section/list/list.view.html'
                 }
             }
         });
@@ -30,7 +30,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsListCtrl', function ($scope, $rootScope, $state, $location, $resource, Sections, Users, Authentication, Ajax, Noty, Progressbar) {
+    .controller('SectionListCtrl', function ($scope, $rootScope, $state, $location, $resource, Sections, Users, Authentication, Ajax, Noty, Progressbar) {
         $scope.modalID = 'modalDelete';
         $scope.admin = Authentication.is('admin');
         $rootScope.searchBarVisible = true;
@@ -117,7 +117,7 @@ angular.module('w3uiFrontendApp')
          * Go to create state
          */
         $scope.create = function () {
-            $state.go('master.sections.create');
+            $state.go('master.section.create');
         };
 
         /**
@@ -126,7 +126,7 @@ angular.module('w3uiFrontendApp')
          * @param row
          */
         $scope.edit = function (row){
-            $state.go('master.sections.edit', {'sectionId': row.entity.id});
+            $state.go('master.section.edit', {'sectionId': row.entity.id});
         };
 
         /**

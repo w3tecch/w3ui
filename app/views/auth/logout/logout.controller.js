@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
 
 /**
  * Each section or module of the site can also have its own routes. AngularJS

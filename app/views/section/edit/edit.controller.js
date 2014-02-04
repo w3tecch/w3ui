@@ -8,7 +8,7 @@ angular.module('w3uiFrontendApp')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.sections.edit', {
+        $stateProvider.state('master.section.edit', {
             access: 'authorized',
             url: '/edit/{sectionId}',
             data: {
@@ -16,12 +16,12 @@ angular.module('w3uiFrontendApp')
                 title: 'Sektionen',
                 subtitle: 'Bearbeiten',
                 icon: 'pencil',
-                parent: 'master.sections'
+                parent: 'master.section'
             },
             views: {
                 'content': {
-                    controller: 'SectionsEditCtrl',
-                    templateUrl: 'views/sections/form.view.html'
+                    controller: 'SectionEditCtrl',
+                    templateUrl: 'views/section/form.view.html'
                 }
             }
         });
@@ -30,7 +30,7 @@ angular.module('w3uiFrontendApp')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('SectionsEditCtrl', function ($scope, $rootScope, $state, $stateParams, Sections, Authentication, Ajax, Noty, Progressbar) {
+    .controller('SectionEditCtrl', function ($scope, $rootScope, $state, $stateParams, Sections, Authentication, Ajax, Noty, Progressbar) {
         $rootScope.searchBarVisible = false;
 
         console.log($stateParams);
@@ -97,7 +97,7 @@ angular.module('w3uiFrontendApp')
                     data: $scope.htmlcontent
                 },
                 function () {
-                    $state.go('master.sections');
+                    $state.go('master.section');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
                 },

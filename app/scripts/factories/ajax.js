@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp')
+angular.module('w3ui')
     .factory('Ajax', function ($http, $state, Authentication) {
 
         /**

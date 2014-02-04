@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('w3uiFrontendApp', [
+angular.module('w3ui', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
@@ -57,7 +57,7 @@ angular.module('w3uiFrontendApp', [
 .run(['$rootScope', '$state', 'Authentication', 'Noty',
     function ($rootScope, $state, Authentication, Noty) {
 
-        $rootScope.appName = 'UI Template';
+        $rootScope.appName = 'Pages';
         $rootScope.searchBarVisible = false;
 
         $rootScope.$on('$stateChangeStart', function(event, next) {
