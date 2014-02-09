@@ -3,7 +3,7 @@
 
         <div class="row" style="margin-bottom: 20px">
             <div class="col-sm-10">
-                <input type="text" data-ng-model="Partner.title" class="input-lg form-control" id="inputTitle" placeholder="Partner Name" required autofocus>
+                <input type="text" data-ng-model="Page.title" class="input-lg form-control" id="inputTitle" placeholder="Page Name" required autofocus>
             </div>
             <div class="col-sm-2 ">
                 <button type="submit" class="btn btn-success btn-lg btn-block pull-right" data-ng-disabled="form.$invalid">Speichern</button>
@@ -12,16 +12,12 @@
 
         <div class="form-group">
             <label for="inputLead">Lead</label>
-            <input type="text" data-ng-model="Partner.lead" class="form-control" id="inputLead" placeholder="" required>
-        </div>
-        <div class="form-group">
-            <label for="inputLabel">Navigationstext</label>
-            <input type="text" data-ng-model="Partner.label" class="form-control" id="inputLabel" placeholder="" required>
+            <input type="text" data-ng-model="Page.lead" class="form-control" id="inputLead" placeholder="">
         </div>
 
         <div class="form-group">
             <label for="inputIndex">Index</label>
-            <input type="number" data-ng-model="Partner.index" class="form-control" id="inputIndex" placeholder="Reihenfolge ( Wert muss grösser als 0 sein )">
+            <input type="number" data-ng-model="Page.index" class="form-control" id="inputIndex" placeholder="Reihenfolge ( Wert muss grösser als 0 sein )">
         </div>
 
     </form>
@@ -29,7 +25,7 @@
 </div>
 
 
-<div class="w3-editor">
+<div class="w3-editor" data-ng-show="hasContent">
     <div text-angular="text-angular" ta-toolbar="[['redo', 'undo'],['h3','p'],['bold','italics','underline','ul', 'ol'],['html', 'insertImage', 'insertLink', 'unlink']]" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled'></div>
 </div>
 

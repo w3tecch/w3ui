@@ -8,20 +8,20 @@ angular.module('w3ui')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.partner.list',{
+        $stateProvider.state('master.page.list',{
             access: 'authorized',
             url: '',
             data: {
                 isNavi: false,
-                title: 'Partner',
+                title: 'Seiten',
                 subtitle: 'Alle',
-                icon: 'user',
-                parent: 'master.partner'
+                icon: 'file',
+                parent: 'master.page'
             },
             views :{
                 'content': {
-                    controller: 'PartnerListCtrl',
-                    templateUrl: 'views/partner/list/list.view.html'
+                    controller: 'PageListCtrl',
+                    templateUrl: 'views/page/list/list.view.html'
                 }
             }
         });
@@ -30,7 +30,7 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('PartnerListCtrl', function ($scope, $rootScope, $state, Partners, Users, Authentication, Ajax, Noty, Progressbar) {
+    .controller('PageListCtrl', function ($scope, $rootScope, $state, Pages, Users, Authentication, Ajax, Noty, Progressbar) {
         $scope.modalID = 'modalDelete';
         $scope.admin = Authentication.is('admin');
         $rootScope.searchBarVisible = true;
@@ -44,6 +44,8 @@ angular.module('w3ui')
         $rootScope.$watch('searchValue', function() {
             $scope.gridOptions.filterOptions.filterText = this.last;
         }, true);
+
+
 
 
         /**
@@ -66,6 +68,15 @@ angular.module('w3ui')
             columnDefs: [
                 {field: 'index', displayName: 'Reihenfolge'},
                 {field: 'title', displayName: 'Titel'},
+                {
+                    field: 'ui_label',
+                    displayName: 'Typ',
+                    cellTemplate: '<div class="ngCellText">' +
+                        '<span data-ng-show="labelStartpage(row)" class="label label-primary">Startseite</span>' +
+                        '<span data-ng-show="labelCorepage(row)" class="label label-default">Corepage</span>' +
+                        '<span data-ng-show="labelCustom(row)" class="label label-default">Spezialseite</span>' +
+                        '</div>'
+                },
                 {field: 'updated_at', displayName: 'Bearbeitet am'},
                 {field: 'updated_by_name', displayName: 'Bearbeitet von'},
                 {
@@ -79,7 +90,7 @@ angular.module('w3ui')
                         '</button>' +
                         '</div>' +
                         '<div class="btn-group btn-group-sm grid-buttons" data-ng-show="admin">' +
-                        '<button ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ modalID }}">' +
+                        '<button data-ng-show="showDelete(row)" ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ modalID }}">' +
                         '<i class="glyphicons circle_remove"></i>' +
                         '</button>' +
                         '</div>' +
@@ -88,15 +99,47 @@ angular.module('w3ui')
             ]
         };
 
+        $scope.labelStartpage = function(row){
+            if( row.entity.startpage ){
+                return true;
+            }
+            return false;
+        };
+        $scope.labelCorepage = function(row){
+            if( row.entity.corePage ){
+                return true;
+            }
+            return false;
+        };
+        $scope.labelCustom = function(row){
+            if( row.entity.custom ){
+                return true;
+            }
+            return false;
+        };
+
+        /**
+         * Returns if the delete button is available
+         *
+         * @param row
+         * @returns {boolean}
+         */
+        $scope.showDelete = function(row){
+            if( row.entity.custom || row.entity.corePage ){
+                return false;
+            }
+            return true;
+        }
+
         /**
          * Get Data
          */
         $scope.getData = function(){
-            Progressbar.show(1, 'Lade Partner Daten');
+            Progressbar.show(1, 'Lade page Daten');
             $scope.modalEntity = {};
 
             Authentication.setHttpHeaders();
-            $scope.myData = Partners.query();
+            $scope.myData = Pages.query();
             $scope.myData.$promise.then(function (result) {
 
                 Authentication.setHttpHeaders();
@@ -116,11 +159,15 @@ angular.module('w3ui')
         $scope.getData();
 
 
+
+
+
+
         /**
          * Go to create state
          */
         $scope.create = function () {
-            $state.go('master.partner.create');
+            $state.go('master.page.create');
         };
 
         /**
@@ -129,7 +176,7 @@ angular.module('w3ui')
          * @param row
          */
         $scope.edit = function (row){
-            $state.go('master.partner.edit', {'partnerId': row.entity.id});
+            $state.go('master.page.edit', {'pageId': row.entity.id});
         };
 
         /**

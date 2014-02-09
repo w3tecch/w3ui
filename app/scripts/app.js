@@ -6,7 +6,8 @@ angular.module('w3ui', [
     'ngSanitize',
     'ui.router',
     'ngGrid',
-    'textAngular'
+    'textAngular',
+    'angularFileUpload'
 ])
 
 /**

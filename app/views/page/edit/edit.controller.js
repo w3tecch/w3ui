@@ -3,25 +3,25 @@
 angular.module('w3ui')
 
 /**
- * Each partner or module of the site can also have its own routes. AngularJS
+ * Each page or module of the site can also have its own routes. AngularJS
  * will handle ensuring they are all available at run-time, but splitting it
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.partner.edit', {
+        $stateProvider.state('master.page.edit', {
             access: 'authorized',
-            url: '/edit/{partnerId}',
+            url: '/edit/{pageId}',
             data: {
                 isNavi: false,
-                title: 'Sektionen',
+                title: 'Seite',
                 subtitle: 'Bearbeiten',
                 icon: 'pencil',
-                parent: 'master.partner'
+                parent: 'master.page'
             },
             views: {
                 'content': {
-                    controller: 'PartnerEditCtrl',
-                    templateUrl: 'views/partner/form.view.html'
+                    controller: 'PageEditCtrl',
+                    templateUrl: 'views/page/form.view.html'
                 }
             }
         });
@@ -30,11 +30,12 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('PartnerEditCtrl', function ($scope, $rootScope, $state, $stateParams, Partners, Authentication, Ajax, Noty, Progressbar) {
+    .controller('PageEditCtrl', function ($scope, $rootScope, $state, $stateParams, Pages, Authentication, Ajax, Noty, Progressbar) {
         $rootScope.searchBarVisible = false;
+        Progressbar.show(2, 'Lade page Daten');
 
-        console.log($stateParams);
-        Progressbar.show(2, 'Lade Partner Daten');
+        $scope.hasContent = true;
+
 
 
         /**
@@ -44,8 +45,15 @@ angular.module('w3ui')
          */
         $scope.getData = function (id) {
             Authentication.setHttpHeaders();
-            $scope.Partner = Partners.get({Id: id}, function () {
-                $scope.getContent(id);
+            $scope.Page = Pages.get({Id: id}, function () {
+
+                if($scope.Page.custom){
+                    $scope.hasContent = false;
+                    Progressbar.hide();
+                }else{
+                    $scope.getContent(id);
+                }
+
             });
         };
 
@@ -57,7 +65,7 @@ angular.module('w3ui')
         $scope.getContent = function (id) {
             Progressbar.next('Lade Content');
             Authentication.setHttpHeaders('text/html', 'text/html');
-            $scope.Content = Partners.getContent({Id: id}, function (response) {
+            $scope.Content = Pages.getContent({Id: id}, function (response) {
                 $scope.htmlcontent = response.html;
                 Progressbar.hide();
             });
@@ -66,7 +74,7 @@ angular.module('w3ui')
         /**
          * Init Process
          */
-        $scope.getData($stateParams.partnerId);
+        $scope.getData($stateParams.pageId);
 
         /**
          * Saves the changes
@@ -78,8 +86,14 @@ angular.module('w3ui')
             //Updating
             Progressbar.next('Speichere neues Element..');
             Authentication.setHttpHeaders();
-            $scope.Partner.$save({Id: $stateParams.partnerId}, function () {
-                $scope.updateContent($stateParams.partnerId);
+            $scope.Page.$save({Id: $stateParams.pageId}, function () {
+                if($scope.hasContent){
+                    $scope.updateContent($stateParams.pageId);
+                }else{
+                    $state.go('master.page');
+                    Progressbar.hide();
+                    Noty.success('Neues Element wurde erfolgreich erstellt');
+                }
             });
 
         };
@@ -91,13 +105,16 @@ angular.module('w3ui')
          */
         $scope.updateContent = function (id) {
             Progressbar.next('Speichere Text...');
+
+
             Ajax.put({
-                    url: 'partner/' + id + '/content',
+                    url: 'page/' + id + '/content',
                     contentType: 'text/html',
+                    accept: 'text/html',
                     data: $scope.htmlcontent
                 },
                 function () {
-                    $state.go('master.partner');
+                    $state.go('master.page');
                     Progressbar.hide();
                     Noty.success('Neues Element wurde erfolgreich erstellt');
                 },
@@ -106,9 +123,10 @@ angular.module('w3ui')
                 }
             );
 
+
+
+
         };
-
-
 
 
     });

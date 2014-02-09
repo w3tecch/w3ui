@@ -3,3 +3,43 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 $btn-primary-bg: #2A6DD0;
 
 
+
+@media (min-width: 768px){
+  .w3-form, .w3-editor {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: #fff;
+    box-shadow: none;
+  }
+}
+
+
+.w3-form, .w3-editor {
+  position: relative;
+  padding: 45px 15px 15px;
+  margin: 0 0px 15px;
+  background-color: #F7F7F7;
+  border-color: #E7E7E7;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.w3-form:after, .w3-editor:after {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.w3-form:after{
+  content: "Form";
+}
+
+.w3-editor:after {
+  content: "Editor";
+}

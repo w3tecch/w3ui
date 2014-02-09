@@ -42,19 +42,12 @@ angular.module('w3ui')
                     password: $scope.password,
                     server: $scope.server
                 },
-                function (user, message, status) {
-                    if (event.preventDefault) {
-                        event.preventDefault();
-                    } else {
-                        event.returnValue = false;
-                    }
+                function () {
                     $state.go('master.home');
-
                     Progressbar.hide();
-
                     Noty.success( 'Erflogriech Angemeldet' );
                 },
-                function (err) {
+                function () {
                     Progressbar.hide();
 
                 }

@@ -3,28 +3,28 @@
 angular.module('w3ui')
 
 /**
- * Each page or module of the site can also have its own routes. AngularJS
+ * Each section or module of the site can also have its own routes. AngularJS
  * will handle ensuring they are all available at run-time, but splitting it
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.page',{
+        $stateProvider.state('master.media',{
             access: 'authorized',
-            url: 'page',
+            url: 'media',
             data: {
                 isNavi: true,
-                title: 'Seiten',
-                icon: 'file',
+                title: 'Medien',
+                icon: 'picture',
                 subtitle: ''
             },
             views :{
                 'body': {
-                    controller: 'PageCtrl',
-                    templateUrl: 'views/page/page.view.html'
+                    controller: 'MediaCtrl',
+                    templateUrl: 'views/media/media.view.html'
                 },
-                'content@master.page': {
-                    controller: 'PageListCtrl',
-                    templateUrl: 'views/page/list/list.view.html'
+                'content@master.media': {
+                    controller: 'MediaListCtrl',
+                    templateUrl: 'views/media/list/list.view.html'
                 }
             }
         });
@@ -33,7 +33,7 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('PageCtrl', function ($scope, $rootScope) {
+    .controller('MediaCtrl', function ($scope, $rootScope) {
         $scope.subtitle = '';
         $rootScope.$on('$stateChangeStart', function(event, next) {
             $scope.subtitle = next.data.subtitle;

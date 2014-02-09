@@ -13,8 +13,8 @@
                     Erstellen
                 </button-->
 
-                <button data-ng-show="admin" ng-click="create()" type="button" class="btn btn-primary">
-                    <i class="glyphicons white plus"></i> Erstellen</button>
+                <button data-ng-show="admin" ng-click="initModalUpload()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+                    <i class="glyphicons white upload"></i> Upload</button>
             </li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -27,6 +27,12 @@
         <div class="gridStyle" ng-grid="gridOptions"></div>
     </div>
 </div>
+
+
+
+
+<div ui-view="upload"></div>
+
 
 
 <!-- Modal -->
@@ -44,9 +50,9 @@
                     <p>Sind Sie sicher, dass Sie dieses Element löschen möchten</p>
                     <br/>
                     <div class="form-group">
-                        <label for="inputTitel" class="col-sm-2 control-label">Titel</label>
+                        <label for="inputName" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputTitel" data-ng-model="modalEntity.title" disabled>
+                            <input type="text" class="form-control" id="inputName" data-ng-model="modalEntity.name" placeholder="Name" disabled>
                         </div>
                     </div>
                 </form>

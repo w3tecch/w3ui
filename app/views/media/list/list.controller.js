@@ -8,20 +8,24 @@ angular.module('w3ui')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        $stateProvider.state('master.partner.list',{
+        $stateProvider.state('master.media.list',{
             access: 'authorized',
             url: '',
             data: {
                 isNavi: false,
-                title: 'Partner',
+                title: 'Medien',
                 subtitle: 'Alle',
-                icon: 'user',
-                parent: 'master.partner'
+                icon: 'picture',
+                parent: 'master.media'
             },
             views :{
                 'content': {
-                    controller: 'PartnerListCtrl',
-                    templateUrl: 'views/partner/list/list.view.html'
+                    controller: 'MediaListCtrl',
+                    templateUrl: 'views/media/list/list.view.html'
+                },
+                'upload@master.media.list':{
+                    controller: 'MediaUploadCtrl',
+                    templateUrl: 'views/media/list/upload.view.html'
                 }
             }
         });
@@ -30,7 +34,7 @@ angular.module('w3ui')
 /**
  * And of course we define a controller for our route.
  */
-    .controller('PartnerListCtrl', function ($scope, $rootScope, $state, Partners, Users, Authentication, Ajax, Noty, Progressbar) {
+    .controller('MediaListCtrl', function ($scope, $rootScope, $state, $location, $resource, Medias, Users, Authentication, Ajax, Noty, Progressbar) {
         $scope.modalID = 'modalDelete';
         $scope.admin = Authentication.is('admin');
         $rootScope.searchBarVisible = true;
@@ -52,20 +56,23 @@ angular.module('w3ui')
         $scope.gridOptions = {
             data: 'myData',
             headerRowHeight: 40,
-            rowHeight: 38,
+            rowHeight: 80,
             enableRowSelection: false,
             enableCellSelection: false,
-            sortInfo: {
-                fields: ['index'],
-                directions: ['asc']
-            },
             filterOptions: {
                 filterText: '',
                 useExternalFilter: false
             },
             columnDefs: [
-                {field: 'index', displayName: 'Reihenfolge'},
-                {field: 'title', displayName: 'Titel'},
+                {field: 'id', displayName: 'ID'},
+                {
+                    field: '',
+                    displayName: 'Aktion',
+                    width: '140px',
+                    cellTemplate: '<div class="imageThumb"><img src="http://localhost/www/baselanwaelte.ch/resources/medias/{{ row.entity.id }}.jpeg" /></div>'
+                },
+                {field: 'name', displayName: 'Name'},
+                {field: 'mimetype_id', displayName: 'Typ'},
                 {field: 'updated_at', displayName: 'Bearbeitet am'},
                 {field: 'updated_by_name', displayName: 'Bearbeitet von'},
                 {
@@ -91,12 +98,12 @@ angular.module('w3ui')
         /**
          * Get Data
          */
-        $scope.getData = function(){
-            Progressbar.show(1, 'Lade Partner Daten');
+        $scope.getMedias = function(){
+            Progressbar.show(1, 'Lade Medias Daten');
             $scope.modalEntity = {};
 
             Authentication.setHttpHeaders();
-            $scope.myData = Partners.query();
+            $scope.myData = Medias.query();
             $scope.myData.$promise.then(function (result) {
 
                 Authentication.setHttpHeaders();
@@ -113,48 +120,20 @@ angular.module('w3ui')
                 });
             });
         };
-        $scope.getData();
+        $scope.getMedias();
+
+
 
 
         /**
          * Go to create state
          */
-        $scope.create = function () {
-            $state.go('master.partner.create');
+        $scope.upload = function () {
+            $state.go('master.media.listupload');
         };
 
-        /**
-         * Open Edit Modal
-         *
-         * @param row
-         */
-        $scope.edit = function (row){
-            $state.go('master.partner.edit', {'partnerId': row.entity.id});
-        };
 
-        /**
-         * Open Delete Modal
-         *
-         * @param row
-         */
-        $scope.openDeleteModel = function (row){
-            $scope.modalEntity = row.entity;
-            $scope.modalTitle = '"' + $scope.modalEntity.title + '"' + ' löschen';
-            $scope.modalButtonText = 'Löschen';
-        };
 
-        /**
-         * Save Modal
-         */
-        $scope.submitModal = function () {
-            $('#'+$scope.modalID).modal('hide');
-            Progressbar.show(1, 'Daten überprüfen');
 
-            Authentication.setHttpHeaders();
-            $scope.modalEntity.$delete({Id: $scope.modalEntity.id}, function(result){
-                $scope.myData = _.without($scope.myData, _.findWhere($scope.myData, {id: $scope.modalEntity.id}));
-                Progressbar.hide();
-            });
-        };
 
     });

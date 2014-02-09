@@ -21,11 +21,11 @@
 }
 
 .ngCellText {
-  padding: 9px;
+  padding: 8px;
 }
 
 .ngHeaderText {
-  padding: 9px;
+  padding: 8px;
 }
 
 .ngRow.even {
@@ -76,4 +76,14 @@
 .grid-buttons button:hover i{
   top: 1px;
   color: #ffffff;
+}
+
+.imageThumb{
+  height: 72px;
+  padding: 8px 0px;
+  overflow: hidden;
+}
+
+.imageThumb img{
+  max-height: 72px;
 }
