@@ -2,23 +2,53 @@
     media Styles
 */
 
-.my-drop-zone { border: dotted 3px #777777; }
-.ng-file-over { border: dotted 3px #2A6DD0; } /* Default class applied to drop zones on over */
+
+.drop-zone{
+  margin: -20px;
+  background-color: whitesmoke;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.drop-zone p{
+  color: #777777;
+}
+
+.drop-zone input{
+  text-align: center;
+  margin: 10px auto;
+}
+
+.upload-list{
+  display: none;
+  margin: -20px;
+  padding-bottom: 20px;
+}
+
+
+.my-drop-zone {
+  /*border: dotted 3px #777777; */
+}
+.ng-file-over {
+  /*border: dotted 3px #2A6DD0; */
+} /* Default class applied to drop zones on over */
 
 canvas {
   background-color: #ffffff;
-
   /*-webkit-box-shadow: 3px 3px 3px 0 #e3e3e3;
   -moz-box-shadow: 3px 3px 3px 0 #e3e3e3;
   box-shadow: 3px 3px 3px 0 #e3e3e3;
   border: 1px solid #c3c3c3;*/
-  height: 100px;
-  margin: 6px 0 0 6px;
+  height: 25px;
 }
 
 .well {
   height: 140px !important;
   text-align: center;
+  border-width: 0px;
+  background: transparent;
+  background-color: transparent;
+  margin-bottom: 0px;
 }
 
 .uploadGlyphicons:before{
@@ -35,4 +65,3 @@ canvas {
   color: #777777;
   margin-top: 55px;
 }
-

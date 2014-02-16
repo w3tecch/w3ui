@@ -8,23 +8,23 @@ angular.module('w3ui')
  * this way makes each module more 'self-contained'.
  */
     .config(function config($stateProvider) {
-        /*$stateProvider.state('master.media.list.upload',{
+        $stateProvider.state('master.media.upload',{
             access: 'authorized',
-            url: '',
+            url: '/upload',
             data: {
                 isNavi: false,
                 title: 'Medien',
                 subtitle: 'Upload',
                 icon: 'picture',
-                parent: 'master.media.list'
+                parent: 'master.media'
             },
             views :{
-                'upload': {
+                'content': {
                     controller: 'MediaUploadCtrl',
                     templateUrl: 'views/media/upload/upload.view.html'
                 }
             }
-        });*/
+        });
     })
 
 /**
@@ -52,7 +52,12 @@ angular.module('w3ui')
 
         // REGISTER HANDLERS
         uploader.bind('afteraddingfile', function (event, item) {
-            console.info('After adding a file', item);
+            //console.info('After adding a file', item);
+
+            $('.drop-zone').hide();
+            $('.upload-list').show();
+
+
         });
 
         uploader.bind('afteraddingall', function (event, items) {
@@ -69,7 +74,7 @@ angular.module('w3ui')
 
         uploader.bind('success', function (event, xhr, item, response) {
             console.info('Success', xhr, item, response);
-            
+
 
 
         });

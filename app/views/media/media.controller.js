@@ -25,6 +25,10 @@ angular.module('w3ui')
                 'content@master.media': {
                     controller: 'MediaListCtrl',
                     templateUrl: 'views/media/list/list.view.html'
+                },
+                'upload@master.media': {
+                    controller: 'MediaUploadCtrl',
+                    templateUrl: 'views/media/upload/upload.view.html'
                 }
             }
         });

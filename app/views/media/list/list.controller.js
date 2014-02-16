@@ -22,10 +22,6 @@ angular.module('w3ui')
                 'content': {
                     controller: 'MediaListCtrl',
                     templateUrl: 'views/media/list/list.view.html'
-                },
-                'upload@master.media.list':{
-                    controller: 'MediaUploadCtrl',
-                    templateUrl: 'views/media/list/upload.view.html'
                 }
             }
         });
