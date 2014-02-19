@@ -46,6 +46,12 @@ angular.module('w3ui')
 
 
 
+        $('#uploadModal').on('hidden.bs.modal', function() {
+            $('.drop-zone').show();
+            $('.upload-list').hide();
+        });
+
+
         // ADDING FILTERS
 
         // Images only
@@ -75,13 +81,9 @@ angular.module('w3ui')
         });
 
 
-
-
         uploader.bind('completeall', function (event, items) {
             console.info('Complete all', items);
             $scope.save(items);
-
-
         });
 
 
@@ -90,22 +92,26 @@ angular.module('w3ui')
 
             var data = JSON.stringify({
                 id: parseInt(oResponse.id),
-                size: items[0].file.size,
                 name: items[0].file.name,
+                filename: items[0].file.name,
+                size: parseInt(items[0].file.size),
+                ext: oResponse.ext,
                 mimetype_id: items[0].file.type
             });
-
-            console.log(oData);
-
-            /*
-             name: "Screen Shot 2013-11-24 at 21.56.57.png"
-             size: 544551
-             type: "image/png"
-            * */
 
             Authentication.setHttpHeaders('application/json', 'application/json');
             $scope.Media = Medias.save(data, function(responseData){
                 console.log(responseData);
+                $scope.progressbarCompleted++;
+                var total = $scope.progressbarAmount * 2;
+                $scope.progressbar = 100 / total * $scope.progressbarCompleted;
+
+                if( $scope.progressbar == 100 ){
+                    window.setTimeout(function() {
+                        $('#uploadModal').modal('hide');
+                    }, 500);
+                }
+
             });
 
         };

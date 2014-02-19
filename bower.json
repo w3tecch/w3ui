@@ -15,10 +15,13 @@
     "noty": "2.2.1",
     "js-base64": "2.1.2",
     "ng-grid": "2.0.7",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "font-awesome": "~4.0.3",
+    "textAngular": "",
+    "angular-file-upload": "0.3.1"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
-    "angular-scenario": "1.2.6"
+    "angular-scenario": "1..6"
   }
 }

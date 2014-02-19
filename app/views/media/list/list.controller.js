@@ -65,22 +65,23 @@ angular.module('w3ui')
                     field: '',
                     displayName: 'Aktion',
                     width: '140px',
-                    cellTemplate: '<div class="imageThumb"><img src="http://localhost/www/baselanwaelte.ch/resources/medias/{{ row.entity.id }}.jpeg" /></div>'
+                    cellTemplate: '<div class="imageThumb"><img src="http://localhost/www/baselanwaelte.ch/resources/medias/{{ row.entity.id }}.{{ row.entity.ext }}" /></div>'
                 },
                 {field: 'name', displayName: 'Name'},
                 {field: 'mimetype_id', displayName: 'Typ'},
+                {field: 'ext', displayName: 'Ext'},
                 {field: 'updated_at', displayName: 'Bearbeitet am'},
                 {field: 'updated_by_name', displayName: 'Bearbeitet von'},
                 {
                     field: '',
                     displayName: 'Aktion',
                     width: '100px',
-                    cellTemplate: '<div class="btn-toolbar" role="toolbar">' +
+                    cellTemplate: '<!--div class="btn-toolbar" role="toolbar">' +
                         '<div class="btn-group btn-group-sm grid-buttons">' +
                         '<button ng-click="edit(row)" type="button" class="btn btn-primary btn-sm">' +
                         '<i class="glyphicons pencil"></i>' +
                         '</button>' +
-                        '</div>' +
+                        '</div-->' +
                         '<div class="btn-group btn-group-sm grid-buttons" data-ng-show="admin">' +
                         '<button ng-click="openDeleteModel(row)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#{{ modalID }}">' +
                         '<i class="glyphicons circle_remove"></i>' +
@@ -102,6 +103,7 @@ angular.module('w3ui')
             $scope.myData = Medias.query();
             $scope.myData.$promise.then(function (result) {
 
+
                 Authentication.setHttpHeaders();
                 var oUsers = Users.query();
                 oUsers.$promise.then(function (list) {
@@ -109,6 +111,9 @@ angular.module('w3ui')
                     for( var i = 0; i < result.length; i++ ){
                         var user = _.where(list, {id: result[i].updated_by});
                         result[i]['updated_by_name'] = user[0].fname + ' ' + user[0].lastname;
+
+                        //result[i]['ext'] = result[i]['mimetype_id'].split('/')[1];
+                        //console.log(result[i]);
                     }
 
                     $scope.myData = result;
@@ -119,14 +124,37 @@ angular.module('w3ui')
         $scope.getMedias();
 
 
+        $('#uploadModal').on('hidden.bs.modal', function() {
+            $scope.getMedias();
+        });
+
 
 
         /**
-         * Go to create state
+         * Open Delete Modal
+         *
+         * @param row
          */
-        $scope.upload = function () {
-            $state.go('master.media.listupload');
+        $scope.openDeleteModel = function (row){
+            $scope.modalEntity = row.entity;
+            $scope.modalTitle = '"' + $scope.modalEntity.name + '"' + ' löschen';
+            $scope.modalButtonText = 'Löschen';
         };
+
+        /**
+         * Save Modal
+         */
+        $scope.submitModal = function () {
+            $('#'+$scope.modalID).modal('hide');
+            Progressbar.show(1, 'Daten überprüfen');
+
+            Authentication.setHttpHeaders();
+            $scope.modalEntity.$delete({Id: $scope.modalEntity.id}, function(result){
+                $scope.myData = _.without($scope.myData, _.findWhere($scope.myData, {id: $scope.modalEntity.id}));
+                Progressbar.hide();
+            });
+        };
+
 
 
 
