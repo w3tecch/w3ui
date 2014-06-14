@@ -46,6 +46,8 @@ angular.module('w3ui')
             Authentication.setHttpHeaders();
             $scope.Partner = Partners.get({Id: id}, function () {
                 $scope.getContent(id);
+
+                console.log($scope.Partner);
             });
         };
 

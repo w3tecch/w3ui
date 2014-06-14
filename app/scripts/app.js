@@ -42,7 +42,8 @@ angular.module('w3ui', [
 
     $httpProvider.defaults.transformResponse.push(function (data, headerGetter) {
         try{
-            var Authorization = headerGetter('Authorization');
+            //var Authorization = headerGetter('Authorization');
+            var Authorization = headerGetter('Auth');
             if(Authorization.indexOf("Bearer") != -1){
                 console.log('API_AUTH_TOKEN', Authorization);
                 configuration.set('API_AUTH_TOKEN', Authorization);

@@ -65,7 +65,7 @@ angular.module('w3ui')
                     field: '',
                     displayName: 'Aktion',
                     width: '140px',
-                    cellTemplate: '<div class="imageThumb"><img src="http://localhost/www/baselanwaelte.ch/resources/medias/{{ row.entity.id }}.{{ row.entity.ext }}" /></div>'
+                    cellTemplate: '<div class="imageThumb"><img src="http://testarea.w3tec.ch/ba/resources/medias/{{ row.entity.id }}.{{ row.entity.ext }}" /></div>'
                 },
                 {field: 'name', displayName: 'Name'},
                 {field: 'mimetype_id', displayName: 'Typ'},

@@ -5,6 +5,7 @@ angular.module('w3ui')
     // Angular File Upload module does not include this directive
     // Only for example
 
+535ba60a14a1e27c83438c68
 
 /**
  * The ng-thumb directive

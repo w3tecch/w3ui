@@ -41,7 +41,8 @@ angular.module('w3ui')
         var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,
             //url: 'http://localhost/w3tec/w3ui-frontend/app/temp/upload.php'
-            url: 'http://localhost/www/baselanwaelte.ch/resources/temp/upload.php'
+            //url: 'http://localhost/www/baselanwaelte.ch/resources/temp/upload.php'
+            url: 'http://testarea.w3tec.ch/ba/resources/temp/upload.php'
         });
 
 

@@ -30,6 +30,7 @@ angular.module('w3ui')
 
                     if(key == 'token'){
                         configuration.set('API_AUTH_TOKEN', value);
+                        $http.defaults.headers.common['Auth'] = value;
                         $http.defaults.headers.common['Authorization'] = value;
                     }
 
@@ -47,6 +48,7 @@ angular.module('w3ui')
                 }
 
                 $http.defaults.headers.common['Authorization'] = configuration.get('API_AUTH_TOKEN');
+                $http.defaults.headers.common['Auth'] = configuration.get('API_AUTH_TOKEN');
                 $http.defaults.headers.common['Content-Type'] = contentType;
                 $http.defaults.headers.common['Accept'] = accept;
             },
@@ -101,7 +103,8 @@ angular.module('w3ui')
                     headers: {
                         'Accept': configuration.get('CONTENT_TYPE'),
                         'API-Secret': configuration.get('API_SECRET'),
-                        'Authorization': 'Basic ' + Base64.encode(formUser.username + ':' + formUser.password)
+                        'Authorization': 'Basic ' + Base64.encode(formUser.username + ':' + formUser.password),
+                        'Auth': 'Basic ' + Base64.encode(formUser.username + ':' + formUser.password)
                     }
                 }).success(function (data, status, headers) {
                     var newUserObj = {};
@@ -113,7 +116,7 @@ angular.module('w3ui')
                     newUserObj.roles = data.roles;
 
                     store.user = newUserObj;
-                    store.token = headers().authorization;
+                    store.token = headers().auth;
 
                     //$cookieStore.put('W3_TOKEN', Base64.encode(store.token));
                     $cookieStore.put('W3_USER', Base64.encode(JSON.stringify(store.user)));

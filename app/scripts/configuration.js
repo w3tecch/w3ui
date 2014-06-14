@@ -5,11 +5,12 @@
 
         // Environment
         APP_ENVIRONMENT: 'development',
+        //APP_ENVIRONMENT: 'production',
 
         //API Request Config
-        API_HOST: 'http://localhost',
+        API_HOST: 'http://testarea.w3tec.ch',
         API_END_POINT: '80',
-        API_SERVER_PATH: '/www/baselanwaelte.ch/api',
+        API_SERVER_PATH: '/ba/api',
 
         API_HOST_DEV: 'http://localhost',
         API_END_POINT_DEV: '80',

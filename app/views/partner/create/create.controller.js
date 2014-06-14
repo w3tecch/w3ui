@@ -37,7 +37,7 @@ angular.module('w3ui')
         $scope.Partner = {
             title: '',
             lead: '',
-            label: '',
+            label: 'Name<br><span>Funktion</span>',
             index: ''
         };
         $scope.htmlcontent = '';

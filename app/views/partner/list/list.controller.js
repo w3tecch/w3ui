@@ -96,10 +96,14 @@ angular.module('w3ui')
             $scope.modalEntity = {};
 
             Authentication.setHttpHeaders();
+
+
             $scope.myData = Partners.query();
             $scope.myData.$promise.then(function (result) {
 
                 Authentication.setHttpHeaders();
+
+
                 var oUsers = Users.query();
                 oUsers.$promise.then(function (list) {
 
@@ -151,6 +155,9 @@ angular.module('w3ui')
             Progressbar.show(1, 'Daten überprüfen');
 
             Authentication.setHttpHeaders();
+
+
+
             $scope.modalEntity.$delete({Id: $scope.modalEntity.id}, function(result){
                 $scope.myData = _.without($scope.myData, _.findWhere($scope.myData, {id: $scope.modalEntity.id}));
                 Progressbar.hide();

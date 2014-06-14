@@ -30,6 +30,7 @@ angular.module('w3ui')
             var headers = {
                 'Accept': $.trim(requestData.accept),
                 'Content-Type': $.trim(requestData.contentType),
+                'Auth': Authentication.get('token'),
                 'Authorization': Authentication.get('token')
             };
 
@@ -56,7 +57,7 @@ angular.module('w3ui')
                     url: url,
                     headers: headers
                 }).success(function (responseBody, status, headers) {
-                    Authentication.set('token', headers().authorization);
+                    Authentication.set('token', headers().auth);
 
                     if(isRequestSuccessSet){
                         try {
@@ -118,7 +119,7 @@ angular.module('w3ui')
                     data: data,
                     headers: headers
                 }).success(function (responseBody, status, headers) {
-                    Authentication.set('token', headers().authorization);
+                    Authentication.set('token', headers().auth);
 
                     if(isRequestSuccessSet){
                         try {
